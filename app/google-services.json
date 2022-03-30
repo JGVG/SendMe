@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "886789123541",
+    "project_id": "sendme-f09d8",
+    "storage_bucket": "sendme-f09d8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:886789123541:android:3feafe1547647dabda215c",
+        "android_client_info": {
+          "package_name": "com.j_gaby_1997.sendme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "886789123541-t39sniif33gk966mpmiaa1g490q0g31i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXnfDsNWtsd0aCVsB1BKhJBRy-Y80_sec"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "886789123541-t39sniif33gk966mpmiaa1g490q0g31i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
