@@ -2,14 +2,10 @@ package com.j_gaby_1997.sendme
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.view.WindowManager
 import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.commit
-import com.j_gaby_1997.sendme.fragments.sign_up.Sign_Up_Frag
 import com.j_gaby_1997.sendme.databinding.ActivityMainBinding
-import com.j_gaby_1997.sendme.fragments.log_in.Log_In_Frag
+import com.j_gaby_1997.sendme.fragments.log_in.LogInFrag
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,10 +20,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(b.root)
     }
 
+    // - START SCREEN -
     private fun showStartDestination() {
         supportFragmentManager.commit {
             setReorderingAllowed(true)
-            replace(R.id.fcContent, Log_In_Frag::class.java, null)
+            replace(R.id.fcContent, LogInFrag::class.java, null)
         }
     }
 }

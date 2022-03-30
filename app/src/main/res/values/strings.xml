@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">SendMe</string>
-    <string name="title_sign_in">Sign In</string>
+    <string name="title_sign_in">Sign Up</string>
     <string name="label_username">Username</string>
     <string name="label_password">Password</string>
     <string name="copyright">Copyright © 2022 JGVG Inc. All rights reserved.</string>
@@ -11,4 +11,8 @@
     <string name="label_remember">Remember me?</string>
     <string name="extended_fab_label_text">ACCESS</string>
     <string name="extended_fab_label_text_to">log in</string>
+    <string name="title_home">Welcome!!</string>
+    <string name="error_message_log_in_auth">User no exists</string>
+    <string name="error_message_sig_up_auth">Register fails</string>
+    <string name="extended_fab_label_text_out">Log Out</string>
 </resources>

@@ -41,7 +41,7 @@
                 android:layout_marginRight="30dp"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="15dp"
-                app:startIconDrawable = "@drawable/outline_person_black_24dp"
+                app:startIconDrawable = "@drawable/outline_email_black_24dp"
                 app:boxBackgroundColor="@color/white"
                 app:endIconMode="clear_text"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -49,7 +49,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textTitle">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edtUsername"
+                    android:id="@+id/edtEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"/>
