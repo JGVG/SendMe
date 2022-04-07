@@ -19,58 +19,17 @@ import java.time.format.DateTimeFormatter
 typealias OnItemClickListener = (position: Int) -> Unit
 typealias OnItemLongClickListener = () -> Unit
 
-class ContactsAdapter() : RecyclerView.Adapter<ContactsAdapter.ViewHolder>() {
+class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ViewHolder>() {
 
     private var onItemClickListenerChat: OnItemClickListener? = null
     private var onItemClickListenerDetail: OnItemClickListener? = null
     private var onItemLongClickListenerDelete: OnItemLongClickListener? = null
     private var data: List<Contact> = emptyList()
 
-
     var deleteMode: Boolean = true
     var selectedContacts: MutableList<Contact> = mutableListOf()
 
-    fun getItem(position: Int) = data[position]
-
-    fun submitList(newData: List<Contact>) {
-        data = newData
-        notifyDataSetChanged()
-    }
-
-    fun setOnItemClickListenerToChat(onItemClickListener: OnItemClickListener) {
-        this.onItemClickListenerChat = onItemClickListener
-    }
-
-    fun setOnItemLongClickListenerToDeleteMode(onItemLongClickListener: OnItemLongClickListener) {
-        this.onItemLongClickListenerDelete = onItemLongClickListener
-    }
-
-    fun setOnItemClickListenerToDetail(onItemClickListener: OnItemClickListener) {
-        this.onItemClickListenerDetail = onItemClickListener
-    }
-
-    override fun getItemCount(): Int = data.size
-
-    //I create the viewHolder according to the layout associated to the list elements.
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        val b = ContactItemBinding.inflate(layoutInflater, parent, false)
-        return ViewHolder(b)
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
-        holder.itemView.isLongClickable = true
-
-        holder.checkBox.setOnClickListener{
-            if(holder.checkBox.isChecked){
-                selectedContacts.add(getItem(position))
-            }else{
-                selectedContacts.remove(getItem(position))
-            }
-        }
-    }
-
+    // - METHODS -
     fun onDeleteModeChange() {
         deleteMode = !deleteMode
 
@@ -78,6 +37,38 @@ class ContactsAdapter() : RecyclerView.Adapter<ContactsAdapter.ViewHolder>() {
             selectedContacts = mutableListOf()
         }
         notifyDataSetChanged()
+    } // Change delete mode, reset the selected contact list and change de UI.
+    fun setOnItemClickListenerToChat(onItemClickListener: OnItemClickListener) {
+        this.onItemClickListenerChat = onItemClickListener
+    }
+    fun setOnItemLongClickListenerToDeleteMode(onItemLongClickListener: OnItemLongClickListener) {
+        this.onItemLongClickListenerDelete = onItemLongClickListener
+    }
+    fun setOnItemClickListenerToDetail(onItemClickListener: OnItemClickListener) {
+        this.onItemClickListenerDetail = onItemClickListener
+    }
+
+    // - ADAPTER & VIEW HOLDER -
+    fun getItem(position: Int) = data[position]
+    fun submitList(newData: List<Contact>) {
+        data = newData
+        notifyDataSetChanged()
+    }
+    override fun getItemCount(): Int = data.size
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val b = ContactItemBinding.inflate(layoutInflater, parent, false)
+        return ViewHolder(b)
+    }
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(getItem(position))
+        holder.checkBox.setOnClickListener{
+            if(holder.checkBox.isChecked){
+                selectedContacts.add(getItem(position))
+            }else{
+                selectedContacts.remove(getItem(position))
+            }
+        }
     }
 
     inner class ViewHolder(private val b: ContactItemBinding) : RecyclerView.ViewHolder(b.root) {
@@ -96,12 +87,10 @@ class ContactsAdapter() : RecyclerView.Adapter<ContactsAdapter.ViewHolder>() {
                     onItemClickListenerChat?.invoke(position)
                 }
             }
-
             itemView.setOnLongClickListener {
                 onItemLongClickListenerDelete?.invoke()
                 true
             }
-
             b.profileImage.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {

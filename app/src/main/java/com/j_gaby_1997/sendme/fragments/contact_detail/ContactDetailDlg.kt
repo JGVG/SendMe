@@ -17,13 +17,11 @@ class ContactDetailDlg: DialogFragment(R.layout.contact_detail_dlg) {
         super.onViewCreated(view, savedInstanceState)
         _b = ContactDetailDlgBinding.bind(requireView())
 
-        //It collects the data to show profile details.
         setFragmentResultListener("requestKey") { _, bundle ->
             b.imageUser.load(bundle.getString("bundleAvatar"))
             b.textUser.text = bundle.getString("bundleName")
-        }
+        } //It collects the data to show profile details.
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

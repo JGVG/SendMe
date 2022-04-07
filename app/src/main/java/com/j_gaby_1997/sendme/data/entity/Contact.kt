@@ -9,4 +9,4 @@ data class Contact (
     var lastMessageTime: LocalDateTime,
     var isOnline: Boolean,
     var haveNewMessage: Boolean
-    )
+)

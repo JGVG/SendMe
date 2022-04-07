@@ -65,7 +65,7 @@ class SignUpFrag : Fragment(R.layout.sign_up_frag){
             if(it.isSuccessful){
                 //Send email and password to login screem and set credentials for log in.
                 setFragmentResult("requestKey", bundleOf("bundleEmail" to b.edtEmail.text.toString(), "bundlePassword" to b.edtPassword.text.toString()))
-                navigateToLogIn()
+                navigateToLogInScreen()
             }else{
                 Toast.makeText(requireActivity().application, R.string.error_message_sig_up_auth, Toast.LENGTH_LONG).show()
             }
@@ -73,7 +73,7 @@ class SignUpFrag : Fragment(R.layout.sign_up_frag){
     }
 
     // - NAVIGATE METHODS -
-    private fun navigateToLogIn() {
+    private fun navigateToLogInScreen() {
         requireActivity().onBackPressed()
     }
 

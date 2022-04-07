@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "0614db6721c52fb86e45db92d1429c1f",
+    "identityHash": "10f5666b40273a4027cd0fbf5f2eb879",
     "entities": [
       {
         "tableName": "CURRENTUSER",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`USER_EMAIL` TEXT NOT NULL, `STU_ID` TEXT NOT NULL, PRIMARY KEY(`USER_EMAIL`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`USER_EMAIL` TEXT NOT NULL, `USER_PASSWORD` TEXT NOT NULL, PRIMARY KEY(`USER_EMAIL`))",
         "fields": [
           {
             "fieldPath": "email",
@@ -16,7 +16,7 @@
           },
           {
             "fieldPath": "password",
-            "columnName": "STU_ID",
+            "columnName": "USER_PASSWORD",
             "affinity": "TEXT",
             "notNull": true
           }
@@ -34,7 +34,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0614db6721c52fb86e45db92d1429c1f')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '10f5666b40273a4027cd0fbf5f2eb879')"
     ]
   }
 }

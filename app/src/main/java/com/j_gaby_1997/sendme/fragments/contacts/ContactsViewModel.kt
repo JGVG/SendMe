@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.j_gaby_1997.sendme.data.entity.Contact
+import com.j_gaby_1997.sendme.data.entity.CurrentUser
 import com.j_gaby_1997.sendme.data.repository.Repository
 import kotlin.concurrent.thread
 
@@ -17,6 +18,10 @@ class ContactsViewModel(private val repository: Repository, savedStateHandle: Sa
         thread {
             repository.deleteCurrentUser()
         }
+    }
+
+    fun deleteContacts(selecteds: MutableList<Contact>) {
+        //Firebase action onDelete...
     }
 
 }

@@ -3,7 +3,6 @@ package com.j_gaby_1997.sendme
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import androidx.core.view.WindowCompat
 import androidx.fragment.app.commit
 import com.j_gaby_1997.sendme.databinding.ActivityContactsBinding
 import com.j_gaby_1997.sendme.fragments.contacts.ContactsFrag
@@ -23,8 +22,8 @@ class ContactsActivity : AppCompatActivity() {
             if (email != null) {
                 showStartDestination(email)
             }else{
-                onBackPressed()
                 Toast.makeText(this, R.string.error_message_ilegal_access, Toast.LENGTH_LONG).show()
+                onBackPressed()
             }
         }
     }

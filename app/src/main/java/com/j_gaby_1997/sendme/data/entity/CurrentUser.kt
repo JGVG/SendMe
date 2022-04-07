@@ -12,6 +12,6 @@ data class CurrentUser (
     @ColumnInfo(name = "USER_EMAIL")
     var email: String,
 
-    @ColumnInfo(name = "STU_ID")
+    @ColumnInfo(name = "USER_PASSWORD")
     val password: String,
 )

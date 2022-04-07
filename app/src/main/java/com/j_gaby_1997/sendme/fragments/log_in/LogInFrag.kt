@@ -26,8 +26,8 @@ class LogInFrag : Fragment(R.layout.log_in_frag){
     }
     private var _b: LogInFragBinding? = null
     private val b get() = _b!!
-    var returned_email = ""
-    var returned_password = ""
+    private var returnedEmail = ""
+    private var returnedPassword = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -38,17 +38,14 @@ class LogInFrag : Fragment(R.layout.log_in_frag){
             b.edtEmail.text = Editable.Factory.getInstance().newEditable(bundle.getString("bundleEmail"))
             b.edtPassword.text = Editable.Factory.getInstance().newEditable(bundle.getString("bundlePassword"))
         }
-
-        loginIf() //NO FUNCIONA (No me guarda el objeto currentUser)
         setupViews()
-        observeViewModel()
     }
 
     private fun setupViews() {
-        b.edtEmail.text = Editable.Factory.getInstance().newEditable(returned_email)
-        b.edtPassword.text = Editable.Factory.getInstance().newEditable(returned_password)
+        b.edtEmail.text = Editable.Factory.getInstance().newEditable(returnedEmail)
+        b.edtPassword.text = Editable.Factory.getInstance().newEditable(returnedPassword)
 
-        b.textNoHaveAccount.setOnClickListener { navigateToSignUp() }
+        b.textNoHaveAccount.setOnClickListener { navigateToSignUpScreen() }
         b.edtEmail.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
@@ -66,12 +63,10 @@ class LogInFrag : Fragment(R.layout.log_in_frag){
         b.floatingActionButton.setOnClickListener { login(b.edtEmail.text.toString(), b.edtPassword.text.toString()) }
     }
 
-    private fun observeViewModel() {}
 
-    // Enable/Disable login button (for textWatchers methods)
     private fun enableLogin() {
         b.floatingActionButton.isEnabled = b.edtPassword.text.toString().isNotEmpty() && b.edtEmail.toString().isNotEmpty() && b.edtEmail.text.toString().isValidEmail()
-    }
+    }// Enable/Disable login button (for textWatchers methods)
 
     // - AUTH METHOD -
     private fun login(email:String, password: String) {
@@ -79,28 +74,24 @@ class LogInFrag : Fragment(R.layout.log_in_frag){
             if(it.isSuccessful){
                 if(b.checkBox.isChecked){
                     viewModel.insertCurrentUser(CurrentUser(email,password))
+                }else{
+                    navigateToAppScreen(it.result?.user?.email?: "") //It will never be null
                 }
-                navigateToApp(it.result?.user?.email?: "") //It will never be null
             }else{
                 Toast.makeText(requireActivity().application, R.string.error_message_log_in_auth, Toast.LENGTH_LONG).show()
             }
         }
     }
-    private fun loginIf() {
-        if(viewModel.currentUser.value != null){
-            login(viewModel.currentUser.value!!.email, viewModel.currentUser.value!!.password)
-        }
-    }
 
-    // - NAVIGATE METHODS -
-    private fun navigateToSignUp() {
+    // - NAVIGATE -
+    private fun navigateToSignUpScreen() {
         requireActivity().supportFragmentManager.commit{
             setReorderingAllowed(true)
             replace(R.id.fcContent, SignUpFrag::class.java, null)
             addToBackStack(null)
         }
     }
-    private fun navigateToApp(email: String) {
+    private fun navigateToAppScreen(email: String) {
         val appIntent = Intent(requireActivity().applicationContext, ContactsActivity::class.java).apply{
             putExtra("email", email)
         }

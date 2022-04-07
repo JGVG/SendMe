@@ -8,7 +8,6 @@ import com.j_gaby_1997.sendme.data.entity.Contact
 import com.j_gaby_1997.sendme.data.entity.CurrentUser
 import com.j_gaby_1997.sendme.data.entity.CurrentUserDao
 import java.time.LocalDateTime
-import java.util.*
 
 class LocalRepository(private val currentUserDao: CurrentUserDao) : Repository {
 
@@ -33,13 +32,34 @@ class LocalRepository(private val currentUserDao: CurrentUserDao) : Repository {
             "Donde pillaste la última vez???",
             LocalDateTime.now(),
             true,
-            false,
+            true,
         ),
         Contact("https://www.pronto.es/uploads/s1/84/55/36/madalyn-selfie.jpeg",
             "Sonia Ex",
             "no me vuelvas a hablar..",
             LocalDateTime.now(),
             false,
+            false,
+        ),
+        Contact("https://i1.sndcdn.com/artworks-000039847852-af58zq-t500x500.jpg",
+            "SuhMorenito19",
+            "illo xq no contestasss xdxd",
+            LocalDateTime.now(),
+            false,
+            false,
+        ),
+        Contact("https://www.tiktok.com/api/img/?itemId=7069514110974610694&location=0&aid=1988",
+            "Manolo",
+            "Me la suda soy Manolo",
+            LocalDateTime.now(),
+            false,
+            false,
+        ),
+        Contact("https://www.lavanguardia.com/files/image_449_220/uploads/2022/03/20/62370c9317199.png",
+            "ELXokas",
+            "PERMABAN TONTO",
+            LocalDateTime.now(),
+            true,
             false,
         ),
     ))
@@ -51,7 +71,7 @@ class LocalRepository(private val currentUserDao: CurrentUserDao) : Repository {
 
     override fun queryCurrentUser(): LiveData<CurrentUser> = currentUserDao.queryCurrentUser()
 
-    override fun addCurrentUser(student: CurrentUser) = currentUserDao.insertCurrentUser(student)
+    override fun addCurrentUser(currentUser: CurrentUser) = currentUserDao.insertCurrentUser(currentUser)
 
     override fun deleteCurrentUser() = currentUserDao.deleteCurrentUser()
 
