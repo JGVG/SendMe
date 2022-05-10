@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.j_gaby_1997.sendme.R
 import com.j_gaby_1997.sendme.data.entity.Contact
-import com.j_gaby_1997.sendme.databinding.ContactItemBinding
+import com.j_gaby_1997.sendme.databinding.ItemContactBinding
 import java.time.format.DateTimeFormatter
 
 typealias OnItemClickListener = (position: Int) -> Unit
@@ -57,7 +57,7 @@ class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ViewHolder>() {
     override fun getItemCount(): Int = data.size
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val b = ContactItemBinding.inflate(layoutInflater, parent, false)
+        val b = ItemContactBinding.inflate(layoutInflater, parent, false)
         return ViewHolder(b)
     }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -71,7 +71,7 @@ class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ViewHolder>() {
         }
     }
 
-    inner class ViewHolder(private val b: ContactItemBinding) : RecyclerView.ViewHolder(b.root) {
+    inner class ViewHolder(private val b: ItemContactBinding) : RecyclerView.ViewHolder(b.root) {
 
         private val profileImage: ImageView = b.profileImage
         private val statusImage: ImageView = b.statusImage

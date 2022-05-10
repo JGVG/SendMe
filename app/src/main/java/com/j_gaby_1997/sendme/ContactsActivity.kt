@@ -1,12 +1,15 @@
 package com.j_gaby_1997.sendme
 
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.commit
 import com.j_gaby_1997.sendme.databinding.ActivityContactsBinding
 import com.j_gaby_1997.sendme.fragments.contacts.ContactsFrag
 
+@RequiresApi(Build.VERSION_CODES.O)
 class ContactsActivity : AppCompatActivity() {
 
     private val b: ActivityContactsBinding by lazy { ActivityContactsBinding.inflate(layoutInflater) }

@@ -1,28 +1,33 @@
 package com.j_gaby_1997.sendme.fragments.contacts
 
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.j_gaby_1997.sendme.ProfileActivity
 import com.j_gaby_1997.sendme.R
+import com.j_gaby_1997.sendme.SearchActivity
 import com.j_gaby_1997.sendme.data.CurrentUserDatabase
 import com.j_gaby_1997.sendme.data.entity.Contact
 import com.j_gaby_1997.sendme.data.repository.LocalRepository
-import com.j_gaby_1997.sendme.databinding.ContactsFragBinding
-import com.j_gaby_1997.sendme.fragments.contact_detail.ContactDetailDlg
+import com.j_gaby_1997.sendme.databinding.FragmentContactsBinding
+import com.j_gaby_1997.sendme.fragments.detail.ContactDetailDlg
 
 private const val ARG_USER_EMAIL = "ARG_USER_EMAIL"
 
-class ContactsFrag : Fragment(R.layout.contacts_frag) {
+@RequiresApi(Build.VERSION_CODES.O)
+class ContactsFrag : Fragment(R.layout.fragment_contacts) {
 
-    private var _b: ContactsFragBinding? = null
+    private var _b: FragmentContactsBinding? = null
     private val b get() = _b!!
-
     private val USEREMAIL: String by lazy {
         requireArguments().getString(ARG_USER_EMAIL, "null")
     }
@@ -33,7 +38,7 @@ class ContactsFrag : Fragment(R.layout.contacts_frag) {
         setOnItemClickListenerToDetail { showDetailDialog(getItem(it)) }
         setOnItemClickListenerToChat {
             if(deleteMode){
-                navigateToChatScreen(getItem(it))
+                navigateToChatScreen(getItem(it).email)
             }
         }
         setOnItemLongClickListenerToDeleteMode {
@@ -44,7 +49,7 @@ class ContactsFrag : Fragment(R.layout.contacts_frag) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _b = ContactsFragBinding.bind(requireView())
+        _b = FragmentContactsBinding.bind(requireView())
         setupViews()
         observeContacts()
         setUpRecycledView()
@@ -53,7 +58,7 @@ class ContactsFrag : Fragment(R.layout.contacts_frag) {
     // - SETUPS -
     private fun setupViews() {
         checkDeleteMode()
-        b.fabNormal.setOnClickListener { navidateToSearchScreen() }
+        b.fabNormal.setOnClickListener { navidateToSearchScreen(USEREMAIL) }
         b.fabDelete.setOnClickListener { deleteSelectedContacts() }
         b.buttonProfile.setOnClickListener { navigateToProfileScreen(USEREMAIL) }
     }
@@ -63,7 +68,6 @@ class ContactsFrag : Fragment(R.layout.contacts_frag) {
             layoutManager = LinearLayoutManager(context)
             itemAnimator = DefaultItemAnimator()
             adapter = listAdapter
-
         }
     }
     private fun observeContacts() {
@@ -71,6 +75,33 @@ class ContactsFrag : Fragment(R.layout.contacts_frag) {
             listAdapter.submitList( it )
         }
     }
+
+    // - NAVIGATE -
+    private fun navigateToChatScreen( email: String ) {
+        Toast.makeText(requireActivity().application, "To chat with: $email", Toast.LENGTH_LONG).show()
+    }
+    private fun navigateToProfileScreen( email :String ){
+        val appIntent = Intent(requireActivity().applicationContext, ProfileActivity::class.java).apply{
+            putExtra("email", email)
+        }
+        startActivity(appIntent)
+    }
+    private fun navidateToSearchScreen(email :String){
+        val appIntent = Intent(requireActivity().applicationContext, SearchActivity::class.java).apply{
+            putExtra("email", email)
+        }
+        startActivity(appIntent)
+    }
+    private fun showDetailDialog( contact: Contact ) {
+        setFragmentResult("requestKey", bundleOf(
+            "bundleAvatar" to contact.avatarURL,
+            "bundleName" to contact.name,
+            "bundleEmail" to contact.email
+        ))
+        ContactDetailDlg().show(requireActivity().supportFragmentManager, "customDialog")
+    } //Display a dialog for the details of the selected contact.
+
+    // - METHODS -
     private fun checkDeleteMode() {
         if(listAdapter.deleteMode){
             b.fabNormal.visibility = View.VISIBLE
@@ -80,31 +111,11 @@ class ContactsFrag : Fragment(R.layout.contacts_frag) {
             b.fabDelete.visibility = View.VISIBLE
         }
     } // Make UI changes for deletion mode.
-
-    // - METHODS -
     private fun deleteSelectedContacts() {
         val selecteds = listAdapter.selectedContacts
-        viewModel.deleteContacts(selecteds)
+        viewModel.deleteContacts(selecteds, USEREMAIL)
 
-        Toast.makeText(requireActivity().application,"Contacts deleted: "+ selecteds.size, Toast.LENGTH_LONG).show()
     } //Gets a list of the contacts selected for deletion.
-    private fun showDetailDialog(contact: Contact) {
-        setFragmentResult("requestKey", bundleOf("bundleAvatar" to contact.avatarURL, "bundleName" to contact.name))
-        ContactDetailDlg().show(requireActivity().supportFragmentManager, "customDialog")
-    } //Display a dialog for the details of the selected contact.
-
-    // - NAVIGATE -
-    private fun navigateToChatScreen(contact: Contact) {
-        Toast.makeText(requireActivity().application, "To chat with: "+ contact.name, Toast.LENGTH_LONG).show()
-    }
-    private fun navigateToProfileScreen(USEREMAIL:String){
-        // Navigate to profile activity with intents
-        Toast.makeText(requireActivity().application, "Go to profile screen\n$USEREMAIL", Toast.LENGTH_LONG).show()
-    }
-    private fun navidateToSearchScreen(){
-        // Navigate to search activity
-        Toast.makeText(requireActivity().application, "Go to search screen", Toast.LENGTH_LONG).show()
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

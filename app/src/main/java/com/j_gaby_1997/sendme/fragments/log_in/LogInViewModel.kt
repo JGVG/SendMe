@@ -8,7 +8,7 @@ import com.j_gaby_1997.sendme.data.repository.Repository
 import com.j_gaby_1997.sendme.services.logInUser
 import kotlin.concurrent.thread
 
-class LogInViewModel( val repository: Repository, savedStateHandle: SavedStateHandle) : ViewModel() {
+class LogInViewModel( private val repository: Repository, savedStateHandle: SavedStateHandle) : ViewModel() {
 
     var currentUser: LiveData<CurrentUser> = repository.queryCurrentUser()
 
@@ -18,7 +18,6 @@ class LogInViewModel( val repository: Repository, savedStateHandle: SavedStateHa
             repository.addCurrentUser(currentUser)
         }
     }
-
     fun login(email:String, password: String) = logInUser(email, password)
 
 

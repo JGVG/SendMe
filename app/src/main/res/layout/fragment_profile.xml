@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_signin_backgroung">
+
+
+
+    <ImageView
+        android:id="@+id/buttonBack"
+        android:layout_width="25dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="50dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/arrow_back_ios"
+        app:tint="@color/white" />
+
+    <ImageView
+        android:id="@+id/buttonSignOut"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/outline_logout_black_24dp"
+        app:tint="@color/white" />
+
+
+    <TextView
+        android:id="@+id/textTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lato_black"
+        android:text="@string/title_profile"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/cardView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonBack" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="350dp"
+        android:layout_height="550dp"
+        app:cardCornerRadius="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_image"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                app:civ_border_color="#b2dfdb"
+                app:civ_border_width="3dp"
+                app:layout_constraintBottom_toTopOf="@+id/textName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.120000005"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:src="@tools:sample/avatars" />
+
+            <ImageView
+                android:id="@+id/buttonEdit"
+                android:layout_width="25dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/settings_ico"
+                app:tint="#337DFF" />
+
+            <TextView
+                android:id="@+id/textName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:fontFamily="@font/lato_black"
+                android:textColor="@color/black"
+                android:textSize="23dp"
+
+                app:layout_constraintBottom_toTopOf="@+id/textEmail"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/profile_image" />
+
+            <TextView
+                android:id="@+id/textEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textName" />
+
+            <TextView
+                android:id="@+id/textDescript"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="30dp"
+                android:visibility="visible"
+                android:fontFamily="@font/lato_black"
+                android:gravity="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textEmail"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <ImageView
+                android:id="@+id/icoHome"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+
+                app:layout_constraintBottom_toTopOf="@+id/icoWebSiteURL"
+                app:layout_constraintEnd_toEndOf="@+id/icoDischargeDate"
+                app:layout_constraintStart_toStartOf="@+id/icoDischargeDate"
+                app:srcCompat="@drawable/home_pin"
+                app:tint="#4f9a94" />
+
+            <TextView
+                android:id="@+id/textHome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/lato_black"
+                android:gravity="start"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="@+id/icoHome"
+                app:layout_constraintStart_toEndOf="@+id/icoHome"
+                app:layout_constraintTop_toTopOf="@+id/icoHome" />
+
+            <ImageView
+                android:id="@+id/icoDischargeDate"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="25dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:srcCompat="@drawable/calendar_discharge_date"
+                app:tint="#4f9a94" />
+
+            <TextView
+                android:id="@+id/textDischargeDate"
+                android:layout_width="wrap_content"
+                android:layout_height="17dp"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/lato_black"
+                android:gravity="start"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textSize="15sp"
+
+                app:layout_constraintBottom_toBottomOf="@+id/icoDischargeDate"
+                app:layout_constraintStart_toEndOf="@+id/icoDischargeDate"
+                app:layout_constraintTop_toTopOf="@+id/icoDischargeDate" />
+
+            <ImageView
+                android:id="@+id/icoWebSiteURL"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                app:layout_constraintBottom_toTopOf="@+id/icoDischargeDate"
+                app:layout_constraintEnd_toEndOf="@+id/icoDischargeDate"
+                app:layout_constraintStart_toStartOf="@+id/icoDischargeDate"
+                app:srcCompat="@drawable/link_ico"
+                app:tint="#4f9a94" />
+
+            <TextView
+                android:id="@+id/textWebSiteURL"
+                android:layout_width="wrap_content"
+                android:layout_height="17dp"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/lato_black"
+                android:gravity="start"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="@+id/icoWebSiteURL"
+                app:layout_constraintStart_toEndOf="@+id/icoWebSiteURL"
+                app:layout_constraintTop_toTopOf="@+id/icoWebSiteURL" />
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/fabNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:text="@string/chat_text"
+                android:textColor="@color/white"
+                android:textSize="15dp"
+                android:visibility="gone"
+                app:icon="@drawable/outline_question_answer_black_24dp"
+                app:iconSize="25dp"
+                app:iconTint="@color/white"
+                app:layout_constraintBottom_toTopOf="@+id/icoHome"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textDescript"
+                app:layout_constraintVertical_bias="0.19999999"
+                app:rippleColor="@color/white" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

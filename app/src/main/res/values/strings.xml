@@ -16,4 +16,18 @@
     <string name="error_message_sig_up_auth">Register fails</string>
     <string name="extended_fab_label_text_out">Log Out</string>
     <string name="error_message_ilegal_access">ILEGAL ACCESS</string>
+    <string name="title_profile">PROFILE</string>
+    <string name="txtDischargeDate">Joined on %s</string>
+    <string name="title_contacts">CONTACTS</string>
+    <string name="label_search">Search</string>
+    <string name="label_descript">Description</string>
+    <string name="label_home">Location</string>
+    <string name="label_birthday">Birthday</string>
+    <string name="label_discharge">Discharge date</string>
+    <string name="label_web_site">Web</string>
+    <string name="chat_text">chat</string>
+    <string name="sign_out">Sign out</string>
+    <string name="title_edit">EDIT</string>
+    <string name="save">save</string>
+    <string name="loading_text">Please Wait</string>
 </resources>

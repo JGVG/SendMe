@@ -1,31 +1,34 @@
 package com.j_gaby_1997.sendme.fragments.sign_up
 
-import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import com.j_gaby_1997.sendme.R
-import com.j_gaby_1997.sendme.databinding.SignUpFragBinding
-import es.iessaladillo.pedrojoya.profile.utils.isValidEmail
+import com.j_gaby_1997.sendme.databinding.FragmentSignUpBinding
+import com.j_gaby_1997.sendme.utils.isValidEmail
 
-class SignUpFrag : Fragment(R.layout.sign_up_frag){
+@RequiresApi(Build.VERSION_CODES.O)
+class SignUpFrag : Fragment(R.layout.fragment_sign_up){
 
     private val viewModel: SignUpViewModel by viewModels()
-    private var _b: SignUpFragBinding? = null
+    private var _b: FragmentSignUpBinding? = null
     private val b get() = _b!!
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _b = SignUpFragBinding.bind(requireView())
+        _b = FragmentSignUpBinding.bind(requireView())
         setupViews()
     }
 
+    // - SETUP -
     private fun setupViews() {
 
         b.edtUsername.addTextChangedListener(object : TextWatcher {
@@ -52,29 +55,28 @@ class SignUpFrag : Fragment(R.layout.sign_up_frag){
         b.floatingActionButton.setOnClickListener { signUp() }
     }
 
-
-    //- Enable/Disable sign up button (for textWatchers methods) -
-    private fun enableSignUp() {
-        b.floatingActionButton.isEnabled = b.edtUsername.text.toString().isNotEmpty() && b.edtPassword.text.toString().isNotEmpty() && b.edtEmail.toString().isNotEmpty() && b.edtEmail.text.toString().isValidEmail()
+    // - NAVIGATE -
+    private fun navigateToLogInScreen() {
+        requireActivity().onBackPressed()
     }
 
-    // - AUTH METHOD -
-    @SuppressLint("ResourceType")
+    // - METHODS -
+    private fun enableSignUp() {
+        b.floatingActionButton.isEnabled = b.edtUsername.text.toString().isNotEmpty() && b.edtPassword.text.toString().isNotEmpty() && b.edtEmail.toString().isNotEmpty() && b.edtEmail.text.toString().isValidEmail()
+    } // Enable/Disable sign up button (for textWatchers methods)
     private fun signUp() {
         viewModel.signIn(b.edtEmail.text.toString(), b.edtPassword.text.toString()).addOnCompleteListener {
             if(it.isSuccessful){
                 //Send email and password to login screem and set credentials for log in.
                 setFragmentResult("requestKey", bundleOf("bundleEmail" to b.edtEmail.text.toString(), "bundlePassword" to b.edtPassword.text.toString()))
+
+                //Create user in db.
+                viewModel.createUser(b.edtEmail.text.toString(), b.edtUsername.text.toString())
                 navigateToLogInScreen()
             }else{
                 Toast.makeText(requireActivity().application, R.string.error_message_sig_up_auth, Toast.LENGTH_LONG).show()
             }
         }
-    }
-
-    // - NAVIGATE METHODS -
-    private fun navigateToLogInScreen() {
-        requireActivity().onBackPressed()
     }
 
     override fun onDestroyView() {

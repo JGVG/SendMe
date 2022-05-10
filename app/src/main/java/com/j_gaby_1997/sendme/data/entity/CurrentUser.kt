@@ -13,5 +13,8 @@ data class CurrentUser (
     var email: String,
 
     @ColumnInfo(name = "USER_PASSWORD")
-    val password: String,
+    var password: String,
+
+    @ColumnInfo(name = "USER_REMEMBER")
+    var remember: Boolean = false,
 )

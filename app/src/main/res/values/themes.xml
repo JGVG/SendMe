@@ -16,16 +16,13 @@
 
     <!-- Tema para las actividades que no van a usar Toolbar -->
     <style name="Theme.SendMe.NoActionBar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="android:navigationBarColor">
-            @android:color/transparent
-        </item>
-        <item name="android:statusBarColor">
-            @android:color/transparent
-        </item>
+        <item name="android:navigationBarColor">@color/white</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
     <style name="Theme.SendMe.SplashScreen" parent="Theme.SendMe.NoActionBar">
         <!-- Tema para SplashScreen -->
+        <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowBackground">@drawable/splashscreen</item>
     </style>
 

@@ -3,12 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/drawable-v24/baseline_refresh_36.xml" value="0.187" />
         <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1735" />
         <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/drawable/baseline_directions_run_24.xml" value="0.3725" />
         <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/drawable/baseline_login_20.xml" value="0.3725" />
         <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/drawable/baseline_login_24.xml" value="0.2205" />
         <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/drawable/border_radius.xml" value="0.3135" />
         <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1735" />
+        <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/drawable/loading.xml" value="0.187" />
+        <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/drawable/progress_animation.xml" value="0.3725" />
+        <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/drawable/search-48px.xml" value="0.2945" />
         <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/drawable/shadow.xml" value="0.3135" />
         <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/drawable/splashscreem.xml" value="0.3255" />
         <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/drawable/splashscreen.xml" value="0.1165" />
@@ -18,14 +22,31 @@
         <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/layout/activity_auth.xml" value="0.2635416666666667" />
         <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/layout/activity_contacts.xml" value="0.2953125" />
         <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/layout/activity_main.xml" value="0.28072916666666664" />
+        <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/layout/activity_profile.xml" value="0.21672240802675585" />
+        <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/layout/activity_search.xml" value="0.24121621621621622" />
         <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/layout/chat_frag.xml" value="0.371875" />
         <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/layout/contact_detail_dlg.xml" value="0.36564102564102563" />
         <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/layout/contact_detail_frag.xml" value="0.371875" />
         <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/layout/contact_item.xml" value="0.31296296296296294" />
         <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/layout/contact_profile_dlg.xml" value="0.25" />
-        <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/layout/contacts_frag.xml" value="0.371875" />
+        <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/layout/contacts_frag.xml" value="0.2462962962962963" />
+        <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/layout/dlg_detail.xml" value="0.34444444444444444" />
+        <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/layout/dlg_edit.xml" value="0.22789658474305777" />
+        <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/layout/dlg_loading.xml" value="0.24121621621621622" />
+        <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/layout/fragment_contacts.xml" value="0.371875" />
+        <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/layout/fragment_loading.xml" value="0.23879598662207357" />
+        <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/layout/fragment_log_in.xml" value="0.36615384615384616" />
+        <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/layout/fragment_profile.xml" value="0.23846153846153847" />
+        <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/layout/fragment_profile_card.xml" value="0.24121621621621622" />
+        <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/layout/fragment_search.xml" value="0.36615384615384616" />
+        <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/layout/fragment_sign_up.xml" value="0.21672240802675585" />
         <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/layout/home_frag.xml" value="0.28072916666666664" />
+        <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/layout/item_contact.xml" value="0.371875" />
+        <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/layout/item_search.xml" value="0.371875" />
+        <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/layout/jklpk.xml" value="0.25" />
         <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/layout/log_in_frag.xml" value="0.2953125" />
+        <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/layout/profile_frag.xml" value="0.36615384615384616" />
+        <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/layout/profile_item.xml" value="0.371875" />
         <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/layout/sign_up_frag.xml" value="0.2953125" />
         <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1735" />
         <entry key="..\:/Users/ffema/OneDrive/Documents/DDAM/kotlin-projects/SendMe/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1735" />

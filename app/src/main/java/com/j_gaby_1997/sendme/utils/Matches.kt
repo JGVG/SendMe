@@ -1,4 +1,4 @@
-package es.iessaladillo.pedrojoya.profile.utils
+package com.j_gaby_1997.sendme.utils
 
 import android.util.Patterns
 
