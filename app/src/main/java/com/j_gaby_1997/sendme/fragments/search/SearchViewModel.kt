@@ -1,7 +1,5 @@
 package com.j_gaby_1997.sendme.fragments.search
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -10,26 +8,42 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.j_gaby_1997.sendme.data.entity.User
 import com.j_gaby_1997.sendme.data.repository.Repository
 
-private const val STATE_RESULTS_INDEX = "STATE_RESULTS_INDEX"
-
 class SearchViewModel (private val repository: Repository, savedStateHandle: SavedStateHandle) : ViewModel() {
 
-    private var _searchResult: MutableLiveData<List<User>> = MutableLiveData<List<User>>()
+    private val db = FirebaseFirestore.getInstance()
+    private var _searchResult: MutableLiveData<MutableList<User>> = MutableLiveData<MutableList<User>>()
+    val searchResult: LiveData<MutableList<User>> get() = _searchResult
     var currentUser = repository.queryCurrentUser().value
 
-    val searchResult: LiveData<List<User>> get() = _searchResult
-    val db = FirebaseFirestore.getInstance()
+    fun search(input: String, currentUserEmail: String){
+        if(input == ""){
+            _searchResult.value = mutableListOf()
+        }else{
+            db.collection("USUARIOS")
+                .orderBy("nombre").startAt(input).endAt(input+"\uf8ff")
+                .get()
+                .addOnSuccessListener { results ->
+                    val searchList: MutableList<User> = mutableListOf()
 
-    fun search(input: String) {
-        db.collection("USUARIOS")
-            .orderBy("nombre").startAt(input).endAt(input+'\uf8ff')
-            .get()
-            .addOnSuccessListener { results ->
-                for (result in results) {
-                    Log.i(TAG, "RESULTADO => ${result.data["email"]}")
+                    for (result in results){
+                        if(result.data["email"] != currentUserEmail){
+                            searchList.add(
+                                User(
+                                    result.data["email"].toString(),
+                                    result.data["nombre"].toString(),
+                                    result.data["avatar_url"].toString(),
+                                    result.data["biografía"].toString(),
+                                    result.data["direccion"].toString(),
+                                    result.data["fecha_alta"].toString(),
+                                    result.data["sitio_web"].toString()
+                                )
+                            )
+                        }
+                    }
+                    _searchResult.value = searchList
                 }
-            }.addOnFailureListener { exception ->
-                Log.i(TAG, "No found documents...: ", exception)
-            }
+        }
+
     }
+
 }

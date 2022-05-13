@@ -1,45 +1,46 @@
 package com.j_gaby_1997.sendme.fragments.search
 
 import android.annotation.SuppressLint
+import android.content.ContentValues
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.net.toUri
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.bumptech.glide.Glide
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
+import com.j_gaby_1997.sendme.R
 import com.j_gaby_1997.sendme.data.entity.User
 import com.j_gaby_1997.sendme.databinding.ItemSearchBinding
+import com.j_gaby_1997.sendme.fragments.loading.LoadingDlg
 
 typealias OnItemClickListener = (position: Int) -> Unit
 
 class SearchAdapter : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
 
     private var onItemClickListenerChat: OnItemClickListener? = null
-    private var data: List<User> = emptyList()
+    private var _data: MutableList<User> = mutableListOf()
 
-    var deleteMode: Boolean = true
-    var selectedContacts: MutableList<User> = mutableListOf()
 
     // - METHODS -
-    fun onDeleteModeChange() {
-        deleteMode = !deleteMode
-
-        if(deleteMode){
-            selectedContacts = mutableListOf()
-        }
-        notifyDataSetChanged()
-    } // Change delete mode, reset the selected contact list and change de UI.
     fun setOnItemClickListenerToChat(onItemClickListener: OnItemClickListener) {
         this.onItemClickListenerChat = onItemClickListener
     }
 
     // - ADAPTER & VIEW HOLDER -
-    fun getItem(position: Int) = data[position]
-    fun submitList(newData: List<User>) {
-        data = newData
+    fun getItem(position: Int) = _data[position]
+    fun submitList(newData: MutableList<User>) {
+        _data = newData
         notifyDataSetChanged()
     }
-    override fun getItemCount(): Int = data.size
+    override fun getItemCount(): Int = _data.size
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val b = ItemSearchBinding.inflate(layoutInflater, parent, false)
@@ -53,9 +54,10 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
 
         private val profileImage: ImageView = b.profileImage
         private val txtContactName: TextView = b.txtContactName
+        private val txtDescript: TextView = b.txtContactDescript
 
         init {
-            b.fabNormal.setOnClickListener {
+            itemView.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     onItemClickListenerChat?.invoke(position)
@@ -67,8 +69,16 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
         @SuppressLint("NewApi")
         fun bind(user: User){
             user.run{
-                profileImage.load(avatarURL)
+                //Load image from Firebase
+                Firebase.storage.reference.child("avatars/${user.avatarURL.toUri().lastPathSegment}").downloadUrl.addOnSuccessListener {
+                    Glide.with(profileImage)
+                        .load(it)
+                        .placeholder(R.drawable.default_avatar)
+                        .error(R.drawable.default_avatar)
+                        .into(profileImage)
+                }
                 txtContactName.text = name
+                txtDescript.text = description
             }
         }
     }

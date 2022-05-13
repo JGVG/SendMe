@@ -48,8 +48,9 @@ class ProfileFrag : Fragment(R.layout.fragment_profile){
 
     override fun onStart() {
         super.onStart()
+        viewModel.setUser(USEREMAIL)
         setupViews()
-        observeCurrentUser()
+        observeUser()
     }
 
     // - SETUPS
@@ -60,58 +61,42 @@ class ProfileFrag : Fragment(R.layout.fragment_profile){
         b.fabNormal.setOnClickListener {
             navigateToChatScreen(USEREMAIL)
         }
+    }
+    private fun observeUser(){
+        viewModel.user.observe(viewLifecycleOwner){ user ->
+            //Setups
+            b.buttonEdit.setOnClickListener { showEditDialog(user)}
+            b.profileImage.setOnClickListener { showDetailDialog(user) }
+            b.textName.text = user.name
+            b.textEmail.text = USEREMAIL
+            b.textDischargeDate.text = String.format(getString(R.string.txtDischargeDate), user.dischargeDate)
+            b.textDescript.text = user.description
+            b.textHome.text = user.location
+            b.textWebSiteURL.text = user.webSiteURL
 
-        FirebaseFirestore.getInstance().collection("USUARIOS").document(USEREMAIL).addSnapshotListener { snapshot, _ ->
-            if (snapshot != null) {
-                val user = User()
+            //Load image from Firebase
+            Firebase.storage.reference.child("avatars/${user.avatarURL.toUri().lastPathSegment}").downloadUrl.addOnSuccessListener {
+                Glide.with(requireActivity())
+                    .load(it)
+                    .placeholder(R.drawable.default_avatar)
+                    .error(R.drawable.default_avatar)
+                    .into(b.profileImage)
+                requireActivity().supportFragmentManager.beginTransaction().remove(loadingDialog).commitAllowingStateLoss()
+            }
 
-                //User creation
-                user.run {
-                    name = snapshot.data!!["nombre"] as String
-                    avatarURL = snapshot.data!!["avatar_url"] as String
-                    description = snapshot.data!!["biografía"] as String
-                    location = snapshot.data!!["direccion"] as String
-                    dischargeDate = snapshot.data!!["fecha_alta"] as String
-                    webSiteURL = snapshot.data!!["sitio_web"] as String
-                    email = USEREMAIL
-                }
-
-                //Setups
-                b.buttonEdit.setOnClickListener { showEditDialog(user)}
-                b.profileImage.setOnClickListener { showDetailDialog(user) }
-                b.textName.text = user.name
-                b.textEmail.text = USEREMAIL
-                b.textDischargeDate.text = String.format(getString(R.string.txtDischargeDate), user.dischargeDate)
-                b.textDescript.text = user.description
-                b.textHome.text = user.location
-                b.textWebSiteURL.text = user.webSiteURL
-
-                //Load image from Firebase
-                Firebase.storage.reference.child("avatars/${user.avatarURL.toUri().lastPathSegment}").downloadUrl.addOnSuccessListener {
-                    Glide.with(requireActivity())
-                        .load(it)
-                        .placeholder(R.drawable.default_avatar)
-                        .error(R.drawable.default_avatar)
-                        .into(b.profileImage)
-                    requireActivity().supportFragmentManager.beginTransaction().remove(loadingDialog).commitAllowingStateLoss()
-                }
-
-                // Displays the contact/user.
-                if(user.location == ""){
-                    b.icoHome.visibility = View.INVISIBLE
-                }else{
-                    b.icoHome.visibility = View.VISIBLE
-                }
-                if(user.webSiteURL == ""){
-                    b.icoWebSiteURL.visibility = View.GONE
-                }else{
-                    b.icoWebSiteURL.visibility = View.VISIBLE
-                }
+            // Displays the contact/user.
+            if(user.location == ""){
+                b.icoHome.visibility = View.INVISIBLE
+            }else{
+                b.icoHome.visibility = View.VISIBLE
+            }
+            if(user.webSiteURL == ""){
+                b.icoWebSiteURL.visibility = View.GONE
+            }else{
+                b.icoWebSiteURL.visibility = View.VISIBLE
             }
         }
 
-    }
-    private fun observeCurrentUser(){
         viewModel.currentUser.observe(viewLifecycleOwner) { currentUser ->
             if (currentUser != null) {
                 if(currentUser.email != USEREMAIL){
@@ -130,24 +115,28 @@ class ProfileFrag : Fragment(R.layout.fragment_profile){
     private fun navigateToChatScreen( email: String ) {
         Toast.makeText(requireActivity().application, "To chat with: $email", Toast.LENGTH_LONG).show()
     }
-    private fun showEditDialog(user: User){
-        setFragmentResult("requestKey", bundleOf(
-            "bundleEmail" to USEREMAIL,
-            "bundleAvatar" to user.avatarURL,
-            "bundleName" to user.name,
-            "bundleDescription" to user.description,
-            "bundleLocation" to user.location,
-            "bundleWebSite" to user.webSiteURL
-        ))
-        ProfileEditDlg().show(requireActivity().supportFragmentManager, "customDialog")
-    }
-    private fun showDetailDialog(user: User) {
-        setFragmentResult("requestKey", bundleOf(
-            "bundleAvatar" to user.avatarURL,
-            "bundleName" to user.name,
-            "bundleEmail" to USEREMAIL
-        ))
-        ContactDetailDlg().show(requireActivity().supportFragmentManager, "customDialog")
+    private fun showEditDialog(user: User?){
+        if(user != null){
+            setFragmentResult("requestKey", bundleOf(
+                "bundleEmail" to USEREMAIL,
+                "bundleAvatar" to user.avatarURL,
+                "bundleName" to user.name,
+                "bundleDescription" to user.description,
+                "bundleLocation" to user.location,
+                "bundleWebSite" to user.webSiteURL
+            ))
+            ProfileEditDlg().show(requireActivity().supportFragmentManager, "customDialog")
+        }
+    } //Display a dialog for edit user.
+    private fun showDetailDialog(user: User?) {
+        if(user != null){
+            setFragmentResult("requestKey", bundleOf(
+                "bundleAvatar" to user.avatarURL,
+                "bundleName" to user.name,
+                "bundleEmail" to USEREMAIL
+            ))
+            ContactDetailDlg().show(requireActivity().supportFragmentManager, "customDialog")
+        }
     } //Display a dialog for the details of the selected user.
 
     // - METHODS -

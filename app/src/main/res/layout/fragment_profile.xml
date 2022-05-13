@@ -6,8 +6,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/login_signin_backgroung">
 
-
-
     <ImageView
         android:id="@+id/buttonBack"
         android:layout_width="25dp"
@@ -93,7 +91,6 @@
                 android:fontFamily="@font/lato_black"
                 android:textColor="@color/black"
                 android:textSize="23dp"
-
                 app:layout_constraintBottom_toTopOf="@+id/textEmail"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"

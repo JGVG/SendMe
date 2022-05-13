@@ -10,11 +10,7 @@ import com.j_gaby_1997.sendme.data.entity.User
 interface Repository {
 
     // - REPOSITORY METHODS -
-    fun queryAllContacts(): MutableLiveData<MutableList<Contact>>
     fun queryCurrentUser(): LiveData<CurrentUser>
     fun addCurrentUser(student: CurrentUser)
     fun deleteCurrentUser()
-
-    // - DATABASE METHODS -
-    fun getContactsList(): MutableList<Contact>
 }

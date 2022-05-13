@@ -9,8 +9,8 @@
         android:id="@+id/buttonProfile"
         android:layout_width="30dp"
         android:layout_height="35dp"
-        android:layout_marginRight="10dp"
         android:layout_marginLeft="30dp"
+        android:layout_marginRight="10dp"
         app:layout_constraintBottom_toBottomOf="@+id/textField"
         app:layout_constraintEnd_toStartOf="@+id/textField"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -39,6 +39,33 @@
             android:layout_height="wrap_content"
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageView
+        android:id="@+id/imageAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/textAdd"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textField"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:srcCompat="@drawable/baseline_person_add_black_24dp"
+        app:tint="@color/material_on_background_disabled" />
+
+    <TextView
+        android:id="@+id/textAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_contact"
+        android:textSize="20dp"
+        android:textColor="@color/material_on_background_disabled"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageAdd" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lstContacts"

@@ -1,7 +1,10 @@
 package com.j_gaby_1997.sendme.fragments.edit
 
 import android.app.Activity.RESULT_OK
+import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
@@ -14,10 +17,10 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.core.graphics.scale
 import androidx.core.net.toUri
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResultListener
-import coil.load
 import com.bumptech.glide.Glide
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -25,6 +28,7 @@ import com.j_gaby_1997.sendme.R
 import com.j_gaby_1997.sendme.databinding.DlgEditBinding
 import com.j_gaby_1997.sendme.fragments.loading.LoadingDlg
 import com.j_gaby_1997.sendme.services.saveUpdateDataUser
+import java.io.ByteArrayOutputStream
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -35,12 +39,18 @@ class ProfileEditDlg: DialogFragment(R.layout.dlg_edit) {
     private var uriImage: Uri? = null
     private val loadingDialog: DialogFragment =  LoadingDlg()
 
-
     private val imageSelectionCall = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == RESULT_OK && result.data != null) {
-                val path = result.data!!.data
-                b.profileImage.load(path)
-                uriImage = path
+                result.data?.data?.let {
+                    val bitmap = BitmapFactory.decodeStream(requireActivity().contentResolver.openInputStream(it))
+                    val resizedBitmap = bitmap.scale(bitmap.width/3, bitmap.height/3)
+                    uriImage = Uri.parse(MediaStore.Images.Media.insertImage(requireActivity().contentResolver, resizedBitmap,"Avatar", null))
+                    Glide.with(b.profileImage)
+                        .load(uriImage)
+                        .placeholder(R.drawable.default_avatar)
+                        .error(R.drawable.default_avatar)
+                        .into(b.profileImage)
+                }
             }
         }
 
@@ -80,7 +90,6 @@ class ProfileEditDlg: DialogFragment(R.layout.dlg_edit) {
             saveUpdateDataUser(email, uriImage, b.edtUsername.text.toString() , b.edtDescription.text.toString(), b.edtLocation.text.toString(), b.edtSite.text.toString())
             dismiss()
         }
-
     }
 
     private fun getImageFromGallery(){
@@ -88,6 +97,19 @@ class ProfileEditDlg: DialogFragment(R.layout.dlg_edit) {
         intent.type = "image/"
         imageSelectionCall.launch(intent)
     }
+
+    fun getImageUri(inContext: Context, inImage: Bitmap): Uri {
+        val bytes = ByteArrayOutputStream()
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+        val path = MediaStore.Images.Media.insertImage(
+            inContext.contentResolver,
+            inImage,
+            "Avatar",
+            null
+        )
+        return Uri.parse(path)
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

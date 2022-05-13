@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.os.bundleOf
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -16,6 +17,7 @@ import com.j_gaby_1997.sendme.R
 import com.j_gaby_1997.sendme.data.CurrentUserDatabase
 import com.j_gaby_1997.sendme.data.repository.LocalRepository
 import com.j_gaby_1997.sendme.databinding.FragmentSearchBinding
+import com.j_gaby_1997.sendme.fragments.loading.LoadingDlg
 
 private const val ARG_USER_EMAIL = "ARG_USER_EMAIL"
 
@@ -36,6 +38,7 @@ class SearchFrag: Fragment(R.layout.fragment_search) {
         }
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _b = FragmentSearchBinding.bind(requireView())
@@ -48,11 +51,10 @@ class SearchFrag: Fragment(R.layout.fragment_search) {
     private fun setupViews() {
         b.edtSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable) {
-                var input = b.edtSearch.text.toString()
-                viewModel.search(input)
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                viewModel.search(b.edtSearch.text.toString(), USEREMAIL)
             }
+            override fun afterTextChanged(s: Editable) {}
         })
     }
     private fun setUpRecycledView() {
@@ -66,12 +68,22 @@ class SearchFrag: Fragment(R.layout.fragment_search) {
     private fun observeUsers() {
         viewModel.searchResult.observe(viewLifecycleOwner){
             listAdapter.submitList( it )
+
+            if(it.size == 0){
+                b.imageAdd.visibility = View.VISIBLE
+                b.textAdd.visibility = View.VISIBLE
+            }else{
+                b.imageAdd.visibility = View.GONE
+                b.textAdd.visibility = View.GONE
+            }
+
         }
     }
 
     // - NAVIGATE -
     private fun navigateToChatScreen( email: String ) {
         Toast.makeText(requireActivity().application, "To chat with: $email", Toast.LENGTH_LONG).show()
+
     }
 
     override fun onDestroyView() {
