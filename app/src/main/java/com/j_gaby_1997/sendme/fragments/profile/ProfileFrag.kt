@@ -75,7 +75,7 @@ class ProfileFrag : Fragment(R.layout.fragment_profile){
             b.textWebSiteURL.text = user.webSiteURL
 
             //Load image from Firebase
-            Firebase.storage.reference.child("avatars/${user.avatarURL.toUri().lastPathSegment}").downloadUrl.addOnSuccessListener {
+            Firebase.storage.reference.child("avatars/${USEREMAIL}/${user.avatarURL.toUri().lastPathSegment}").downloadUrl.addOnSuccessListener {
                 Glide.with(requireActivity())
                     .load(it)
                     .placeholder(R.drawable.default_avatar)

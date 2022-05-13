@@ -70,7 +70,7 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
         fun bind(user: User){
             user.run{
                 //Load image from Firebase
-                Firebase.storage.reference.child("avatars/${user.avatarURL.toUri().lastPathSegment}").downloadUrl.addOnSuccessListener {
+                Firebase.storage.reference.child("avatars/${user.email}/${user.avatarURL.toUri().lastPathSegment}").downloadUrl.addOnSuccessListener {
                     Glide.with(profileImage)
                         .load(it)
                         .placeholder(R.drawable.default_avatar)

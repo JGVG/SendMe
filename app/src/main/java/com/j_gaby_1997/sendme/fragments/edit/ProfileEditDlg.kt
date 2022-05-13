@@ -1,7 +1,8 @@
 package com.j_gaby_1997.sendme.fragments.edit
 
 import android.app.Activity.RESULT_OK
-import android.content.Context
+import android.content.ContentResolver
+import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -10,6 +11,7 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
 import android.view.View
@@ -29,6 +31,8 @@ import com.j_gaby_1997.sendme.databinding.DlgEditBinding
 import com.j_gaby_1997.sendme.fragments.loading.LoadingDlg
 import com.j_gaby_1997.sendme.services.saveUpdateDataUser
 import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -37,6 +41,7 @@ class ProfileEditDlg: DialogFragment(R.layout.dlg_edit) {
     private var _b: DlgEditBinding? = null
     private val b get() = _b!!
     private var uriImage: Uri? = null
+    private var email : String? = null
     private val loadingDialog: DialogFragment =  LoadingDlg()
 
     private val imageSelectionCall = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -44,6 +49,7 @@ class ProfileEditDlg: DialogFragment(R.layout.dlg_edit) {
                 result.data?.data?.let {
                     val bitmap = BitmapFactory.decodeStream(requireActivity().contentResolver.openInputStream(it))
                     val resizedBitmap = bitmap.scale(bitmap.width/3, bitmap.height/3)
+
                     uriImage = Uri.parse(MediaStore.Images.Media.insertImage(requireActivity().contentResolver, resizedBitmap,"Avatar", null))
                     Glide.with(b.profileImage)
                         .load(uriImage)
@@ -60,19 +66,19 @@ class ProfileEditDlg: DialogFragment(R.layout.dlg_edit) {
         _b = DlgEditBinding.bind(requireView())
         dialog!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-
         setFragmentResultListener("requestKey") { _, bundle ->
             b.edtUsername.text = Editable.Factory.getInstance().newEditable(bundle.getString("bundleName"))
             b.edtDescription.text = Editable.Factory.getInstance().newEditable(bundle.getString("bundleDescription"))
             b.edtLocation.text = Editable.Factory.getInstance().newEditable(bundle.getString("bundleLocation"))
             b.edtSite.text = Editable.Factory.getInstance().newEditable(bundle.getString("bundleWebSite"))
+            email = bundle.getString("bundleEmail").toString()
 
             b.buttonSave.setOnClickListener { saveChanges(bundle.getString("bundleEmail").toString()) }
             b.buttonCamera.setOnClickListener { getImageFromGallery() }
 
             //Load image from Firebase
             val uri = bundle.getString("bundleAvatar")?.toUri()
-            Firebase.storage.reference.child("avatars/${uri?.lastPathSegment}").downloadUrl.addOnSuccessListener {
+            Firebase.storage.reference.child("avatars/${email}/${uri?.lastPathSegment}").downloadUrl.addOnSuccessListener {
                 Glide.with(requireActivity())
                     .load(it)
                     .placeholder(R.drawable.default_avatar)
@@ -98,17 +104,6 @@ class ProfileEditDlg: DialogFragment(R.layout.dlg_edit) {
         imageSelectionCall.launch(intent)
     }
 
-    fun getImageUri(inContext: Context, inImage: Bitmap): Uri {
-        val bytes = ByteArrayOutputStream()
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
-        val path = MediaStore.Images.Media.insertImage(
-            inContext.contentResolver,
-            inImage,
-            "Avatar",
-            null
-        )
-        return Uri.parse(path)
-    }
 
 
     override fun onDestroyView() {

@@ -44,7 +44,7 @@ class ContactDetailDlg: DialogFragment(R.layout.dlg_detail) {
 
             //Load image from Firebase
             val uri = bundle.getString("bundleAvatar")?.toUri()
-            Firebase.storage.reference.child("avatars/${uri?.lastPathSegment}").downloadUrl.addOnSuccessListener {
+            Firebase.storage.reference.child("avatars/${bundle.getString("bundleEmail").toString()}/${uri?.lastPathSegment}").downloadUrl.addOnSuccessListener {
                 Glide.with(requireActivity())
                     .load(it)
                     .placeholder(R.drawable.default_avatar)

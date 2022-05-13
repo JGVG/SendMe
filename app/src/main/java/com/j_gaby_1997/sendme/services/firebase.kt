@@ -33,7 +33,7 @@ fun createUserDoc(email: String, name: String, isOnline: Boolean = false) {
 
    val uri = Uri.parse("android.resource://com.j_gaby_1997.sendme/drawable/default_avatar")
 
-    val avatarsRef = Firebase.storage.reference.child("avatars/${uri.lastPathSegment}")
+    val avatarsRef = Firebase.storage.reference.child("avatars/${email}/${uri.lastPathSegment}")
     val uploadTask = avatarsRef.putFile(uri)
 
     uploadTask.addOnSuccessListener {
@@ -56,7 +56,7 @@ fun createUserDoc(email: String, name: String, isOnline: Boolean = false) {
 fun saveUpdateDataUser(email: String, uriImage: Uri?, name: String, description: String, location: String, web: String){
     if(uriImage != null){
 
-        val avatarsRef = Firebase.storage.reference.child("avatars/${uriImage.lastPathSegment}")
+        val avatarsRef = Firebase.storage.reference.child("avatars/${email}/${uriImage.lastPathSegment}")
         val uploadTask = avatarsRef.putFile(uriImage)
 
         uploadTask.addOnSuccessListener {
