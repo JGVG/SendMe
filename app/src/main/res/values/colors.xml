@@ -9,5 +9,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="white_semi">#48FFFFFF</color>
     <color name="transparent">#00FFFFFF</color>
+    <color name="background_sendMe">#1c2e46</color>
+    <color name="background_button_sendMe">#334259</color>
+
 
 </resources>

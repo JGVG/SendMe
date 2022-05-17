@@ -1,5 +1,6 @@
 package com.j_gaby_1997.sendme.fragments.edit
 
+import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.content.ContentResolver
 import android.content.ContentValues
@@ -34,7 +35,6 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 
-
 @RequiresApi(Build.VERSION_CODES.O)
 class ProfileEditDlg: DialogFragment(R.layout.dlg_edit) {
 
@@ -50,7 +50,7 @@ class ProfileEditDlg: DialogFragment(R.layout.dlg_edit) {
                     val bitmap = BitmapFactory.decodeStream(requireActivity().contentResolver.openInputStream(it))
                     val resizedBitmap = bitmap.scale(bitmap.width/3, bitmap.height/3)
 
-                    uriImage = Uri.parse(MediaStore.Images.Media.insertImage(requireActivity().contentResolver, resizedBitmap,"Avatar", null))
+                    uriImage = Uri.parse(MediaStore.Images.Media.insertImage(requireActivity().contentResolver, resizedBitmap,"avatar", null))
                     Glide.with(b.profileImage)
                         .load(uriImage)
                         .placeholder(R.drawable.default_avatar)
@@ -98,17 +98,15 @@ class ProfileEditDlg: DialogFragment(R.layout.dlg_edit) {
         }
     }
 
+    @SuppressLint("IntentReset")
     private fun getImageFromGallery(){
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         intent.type = "image/"
         imageSelectionCall.launch(intent)
     }
 
-
-
     override fun onDestroyView() {
         super.onDestroyView()
         _b = null
     }
-
 }

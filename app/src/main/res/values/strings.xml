@@ -16,7 +16,7 @@
     <string name="error_message_sig_up_auth">Register fails</string>
     <string name="extended_fab_label_text_out">Log Out</string>
     <string name="error_message_ilegal_access">ILEGAL ACCESS</string>
-    <string name="title_profile">PROFILE</string>
+    <string name="title_profile">Profile</string>
     <string name="txtDischargeDate">Joined on %s</string>
     <string name="title_contacts">CONTACTS</string>
     <string name="label_search">Search</string>
@@ -31,4 +31,6 @@
     <string name="save">save</string>
     <string name="loading_text">Please Wait</string>
     <string name="add_contact">Add Contact</string>
+    <string name="title_messages">Messages</string>
+    <string name="text_message">Message</string>
 </resources>

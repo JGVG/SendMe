@@ -12,11 +12,9 @@ import com.j_gaby_1997.sendme.fragments.profile.ProfileFrag
 
 @RequiresApi(Build.VERSION_CODES.O)
 class ProfileActivity : AppCompatActivity() {
-
     private val b: ActivityProfileBinding by lazy { ActivityProfileBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
         setContentView(b.root)
 
@@ -26,7 +24,7 @@ class ProfileActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             if (email != null) {
                 showStartDestination(email)
-            }else{
+            } else {
                 Toast.makeText(this, R.string.error_message_ilegal_access, Toast.LENGTH_LONG).show()
                 onBackPressed()
             }

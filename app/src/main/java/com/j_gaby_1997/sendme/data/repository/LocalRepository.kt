@@ -16,5 +16,4 @@ class LocalRepository(private val currentUserDao: CurrentUserDao) : Repository {
     override fun queryCurrentUser(): LiveData<CurrentUser> = currentUserDao.queryCurrentUser()
     override fun addCurrentUser(currentUser: CurrentUser) = currentUserDao.insertCurrentUser(currentUser)
     override fun deleteCurrentUser() = currentUserDao.deleteCurrentUser()
-
 }

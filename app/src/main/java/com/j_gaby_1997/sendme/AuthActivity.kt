@@ -21,7 +21,6 @@ class AuthActivity : AppCompatActivity() {
     private val b: ActivityAuthBinding by lazy { ActivityAuthBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
         setContentView(b.root)
 

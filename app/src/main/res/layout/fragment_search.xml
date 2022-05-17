@@ -3,35 +3,41 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background_sendMe">
+
+    <View
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/border_bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/buttonProfile"
+        android:id="@+id/buttonBack"
         android:layout_width="30dp"
-        android:layout_height="35dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="10dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textField"
-        app:layout_constraintEnd_toStartOf="@+id/textField"
-        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        android:layout_height="30dp"
+        android:layout_margin="30dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textField"
-        app:srcCompat="@drawable/search_ico"
-        app:tint="@color/black" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/baseline_arrow_back_black_24dp"
+        app:tint="@color/background_sendMe" />
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textField"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginRight="30dp"
         android:hint="@string/label_search"
+        android:layout_margin="30dp"
         app:boxBackgroundColor="@color/white"
         app:endIconMode="clear_text"
+        app:startIconDrawable="@drawable/baseline_search_black_24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/buttonProfile"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonBack">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edtSearch"
@@ -39,6 +45,7 @@
             android:layout_height="wrap_content"
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
+
 
     <ImageView
         android:id="@+id/imageAdd"
@@ -71,13 +78,12 @@
         android:id="@+id/lstContacts"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="20dp"
+        android:layout_margin="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textField"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintVertical_bias="0.516"
         tools:listitem="@layout/item_search" />
 
 

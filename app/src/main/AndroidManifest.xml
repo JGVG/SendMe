@@ -2,9 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.j_gaby_1997.sendme">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -33,17 +33,23 @@
             android:name=".ContactsActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.SendMe.App" />
+            android:theme="@style/Theme.SendMe.NoActionBar" />
         <activity
             android:name=".AuthActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.SendMe.SplashScreen"/>
+            android:theme="@style/Theme.SendMe.SplashScreen" />
         <activity
             android:name=".SearchActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.SendMe.App"/>
+            android:theme="@style/Theme.SendMe.NoActionBarChat"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ChatActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.SendMe.NoActionBarChat"/>
     </application>
 
 </manifest>

@@ -12,6 +12,7 @@ import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.j_gaby_1997.sendme.ChatActivity
 import com.j_gaby_1997.sendme.ProfileActivity
 import com.j_gaby_1997.sendme.R
 import com.j_gaby_1997.sendme.SearchActivity
@@ -78,7 +79,10 @@ class ContactsFrag : Fragment(R.layout.fragment_contacts) {
 
     // - NAVIGATE -
     private fun navigateToChatScreen( email: String ) {
-        Toast.makeText(requireActivity().application, "To chat with: $email", Toast.LENGTH_LONG).show()
+        val appIntent = Intent(requireActivity().applicationContext, ChatActivity::class.java).apply{
+            putExtra("email", email)
+        }
+        startActivity(appIntent)
     }
     private fun navigateToProfileScreen( email :String ){
         val appIntent = Intent(requireActivity().applicationContext, ProfileActivity::class.java).apply{

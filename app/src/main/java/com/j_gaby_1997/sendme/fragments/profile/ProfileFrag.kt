@@ -102,6 +102,7 @@ class ProfileFrag : Fragment(R.layout.fragment_profile){
                 if(currentUser.email != USEREMAIL){
                     b.buttonSignOut.visibility = View.GONE
                     b.buttonEdit.visibility = View.GONE
+                    b.view2.visibility = View.GONE
                     b.fabNormal.visibility = View.VISIBLE
                 }
             }

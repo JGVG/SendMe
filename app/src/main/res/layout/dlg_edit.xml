@@ -24,11 +24,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
-                android:backgroundTint="@color/white_semi"
+                android:backgroundTint="@color/background_button_sendMe"
                 android:clickable="false"
                 android:textColor="@color/white"
                 app:icon="@drawable/camera_icon"
-                app:iconSize="19dp"
+                app:iconSize="30dp"
                 app:iconTint="@color/white"
                 app:layout_constraintBottom_toBottomOf="@+id/profile_image"
                 app:layout_constraintEnd_toEndOf="@+id/profile_image"
@@ -39,8 +39,6 @@
                 android:id="@+id/profile_image"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                app:civ_border_color="#b2dfdb"
-                app:civ_border_width="3dp"
                 app:layout_constraintBottom_toTopOf="@+id/textFieldUsername"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -188,14 +186,13 @@
 
             <ImageView
                 android:id="@+id/buttonSave"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginEnd="25dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="30dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/save_ico"
-                app:tint="#337DFF" />
+                app:srcCompat="@drawable/baseline_publish_black_24dp"
+                app:tint="@color/background_sendMe" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

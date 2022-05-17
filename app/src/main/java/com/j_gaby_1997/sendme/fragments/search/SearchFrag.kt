@@ -1,5 +1,6 @@
 package com.j_gaby_1997.sendme.fragments.search
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
@@ -13,6 +14,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.j_gaby_1997.sendme.ChatActivity
+import com.j_gaby_1997.sendme.ProfileActivity
 import com.j_gaby_1997.sendme.R
 import com.j_gaby_1997.sendme.data.CurrentUserDatabase
 import com.j_gaby_1997.sendme.data.repository.LocalRepository
@@ -38,7 +41,6 @@ class SearchFrag: Fragment(R.layout.fragment_search) {
         }
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _b = FragmentSearchBinding.bind(requireView())
@@ -51,11 +53,10 @@ class SearchFrag: Fragment(R.layout.fragment_search) {
     private fun setupViews() {
         b.edtSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                viewModel.search(b.edtSearch.text.toString(), USEREMAIL)
-            }
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) { viewModel.search(b.edtSearch.text.toString(), USEREMAIL) }
             override fun afterTextChanged(s: Editable) {}
         })
+        b.buttonBack.setOnClickListener { navigateToContactScreen() }
     }
     private fun setUpRecycledView() {
         b.lstContacts.run{
@@ -76,14 +77,19 @@ class SearchFrag: Fragment(R.layout.fragment_search) {
                 b.imageAdd.visibility = View.GONE
                 b.textAdd.visibility = View.GONE
             }
-
         }
     }
 
     // - NAVIGATE -
     private fun navigateToChatScreen( email: String ) {
-        Toast.makeText(requireActivity().application, "To chat with: $email", Toast.LENGTH_LONG).show()
-
+        val appIntent = Intent(requireActivity().applicationContext, ChatActivity::class.java).apply{
+            putExtra("email", email)
+        }
+        requireActivity().finish()
+        startActivity(appIntent)
+    }
+    private fun navigateToContactScreen() {
+        requireActivity().onBackPressed()
     }
 
     override fun onDestroyView() {
