@@ -5,5 +5,5 @@ data class Message (
     var message_text: String,
     var state: Boolean,
     var date: String,
-    var message_date: String
+    var mini_date: String
 )

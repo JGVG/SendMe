@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.ktx.Firebase
@@ -69,36 +70,56 @@ fun saveUpdateDataUser(email: String, uriImage: Uri?, name: String, description:
         )
     }
 }
-
-fun createChatDoc(senderEmail: String, receiverEmail:String){
-    FirebaseFirestore.getInstance().collection("CHAT").document("${receiverEmail}_${senderEmail}").get().addOnSuccessListener { doc ->
-        if(!doc.exists()){
-            FirebaseFirestore.getInstance().collection("CHAT").document("${senderEmail}_${receiverEmail}").get().addOnSuccessListener {
-                if(!it.exists()){
-                    FirebaseFirestore.getInstance().collection("CHAT").document("${senderEmail}_${receiverEmail}").set(
+fun checkChatDoc(senderEmail: String, receiverEmail:String) {
+    FirebaseFirestore.getInstance().collection("CHAT")
+        .document("${senderEmail}_${receiverEmail}").get().addOnSuccessListener {
+            if (!it.exists()){
+                FirebaseFirestore.getInstance().collection("CHAT")
+                    .document("${senderEmail}_${receiverEmail}").set(
                         hashMapOf(
                             "emisor" to senderEmail,
                             "receptor" to receiverEmail,
                             "esContacto" to false
                         )
                     )
-                }
             }
         }
-    }
 
+    FirebaseFirestore.getInstance().collection("CHAT")
+        .document("${receiverEmail}_${senderEmail}").get().addOnSuccessListener {
+            if(!it.exists()){
+                FirebaseFirestore.getInstance().collection("CHAT")
+                    .document("${receiverEmail}_${senderEmail}").set(
+                        hashMapOf(
+                            "emisor" to receiverEmail,
+                            "receptor" to senderEmail,
+                            "esContacto" to false
+                        )
+                    )
+            }
+        }
 
 }
-
-fun createMessage(senderEmail: String, receiverEmail: String, message: Message){
+fun createMessage(senderEmail: String, receiverEmail: String, message: Message) {
     FirebaseFirestore.getInstance().collection("CHAT").document("${senderEmail}_${receiverEmail}").update("esContacto", true )
     FirebaseFirestore.getInstance().collection("CHAT").document("${senderEmail}_${receiverEmail}").collection("MENSAJES").document().set(
         hashMapOf(
             "email" to message.email,
             "mensaje" to message.message_text,
             "estado" to message.state,
-            "fecha" to message.date,
-            "fecha_mini" to message.message_date
+            "fecha" to message.mini_date,
+            "fecha_mini" to message.date
+        )
+    )
+
+    FirebaseFirestore.getInstance().collection("CHAT").document("${receiverEmail}_${senderEmail}").update("esContacto", true )
+    FirebaseFirestore.getInstance().collection("CHAT").document("${receiverEmail}_${senderEmail}").collection("MENSAJES").document().set(
+        hashMapOf(
+            "email" to message.email,
+            "mensaje" to message.message_text,
+            "estado" to message.state,
+            "fecha" to message.mini_date,
+            "fecha_mini" to message.date
         )
     )
 }

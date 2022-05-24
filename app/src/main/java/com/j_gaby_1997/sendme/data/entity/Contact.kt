@@ -7,7 +7,9 @@ data class Contact (
     var avatarURL: String,
     var name: String,
     var lastMessage: String,
-    var lastMessageTime: LocalDateTime,
+    var lastMessageTime: String,
     var isOnline: Boolean,
     var haveNewMessage: Boolean,
-)
+){
+    constructor() : this("", "", "","","",false,false)
+}

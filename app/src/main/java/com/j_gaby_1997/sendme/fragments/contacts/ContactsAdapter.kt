@@ -9,8 +9,12 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.bumptech.glide.Glide
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.j_gaby_1997.sendme.R
 import com.j_gaby_1997.sendme.data.entity.Contact
 import com.j_gaby_1997.sendme.databinding.ItemContactBinding
@@ -105,7 +109,14 @@ class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ViewHolder>() {
             contact.run{
                 checkBox.isChecked = false
 
-                profileImage.load(avatarURL)
+                //Load image from Firebase
+                Firebase.storage.reference.child("avatars/${email}/${avatarURL.toUri().lastPathSegment}").downloadUrl.addOnSuccessListener {
+                    Glide.with(b.profileImage)
+                        .load(it)
+                        .placeholder(R.drawable.default_avatar)
+                        .error(R.drawable.default_avatar)
+                        .into(b.profileImage)
+                }
                 txtContactName.text = name
                 txtLastMessageChat.text = lastMessage
                 txtLastMessageTime.text =  lastMessageTime.format(DateTimeFormatter.ofPattern("HH:mm")).toString()

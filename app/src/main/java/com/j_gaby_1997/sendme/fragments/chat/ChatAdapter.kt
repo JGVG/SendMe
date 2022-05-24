@@ -59,7 +59,7 @@ class ChatAdapter : RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
                 dateLeft.visibility = View.GONE
 
                 messageRight.text = message.message_text
-                dateRight.text = message.date
+                dateRight.text = message.mini_date
 
             } else {
                 messageRight.visibility = View.GONE
@@ -79,7 +79,7 @@ class ChatAdapter : RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
                     }
 
                 messageLeft.text = message.message_text
-                dateLeft.text = message.message_date
+                dateLeft.text = message.mini_date
             }
 
         }

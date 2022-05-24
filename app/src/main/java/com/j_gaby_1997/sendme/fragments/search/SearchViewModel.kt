@@ -8,12 +8,11 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.j_gaby_1997.sendme.data.entity.User
 import com.j_gaby_1997.sendme.data.repository.Repository
 
-class SearchViewModel (private val repository: Repository, savedStateHandle: SavedStateHandle) : ViewModel() {
+class SearchViewModel: ViewModel() {
 
     private val db = FirebaseFirestore.getInstance()
     private var _searchResult: MutableLiveData<MutableList<User>> = MutableLiveData<MutableList<User>>()
     val searchResult: LiveData<MutableList<User>> get() = _searchResult
-    var currentUser = repository.queryCurrentUser().value
 
     fun search(input: String, currentUserEmail: String){
         if(input == ""){

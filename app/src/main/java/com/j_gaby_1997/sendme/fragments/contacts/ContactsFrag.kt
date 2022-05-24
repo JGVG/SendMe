@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.os.bundleOf
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
@@ -21,6 +22,7 @@ import com.j_gaby_1997.sendme.data.entity.Contact
 import com.j_gaby_1997.sendme.data.repository.LocalRepository
 import com.j_gaby_1997.sendme.databinding.FragmentContactsBinding
 import com.j_gaby_1997.sendme.fragments.detail.ContactDetailDlg
+import com.j_gaby_1997.sendme.fragments.loading.LoadingDlg
 
 private const val ARG_USER_EMAIL = "ARG_USER_EMAIL"
 
@@ -32,9 +34,7 @@ class ContactsFrag : Fragment(R.layout.fragment_contacts) {
     private val USEREMAIL: String by lazy {
         requireArguments().getString(ARG_USER_EMAIL, "null")
     }
-    private val viewModel: ContactsViewModel by viewModels {
-        ContactsViewModelFactory(LocalRepository(CurrentUserDatabase.getInstance(requireContext()).currentUserDao), this)
-    }
+    private val viewModel: ContactsViewModel by viewModels()
     private val listAdapter: ContactsAdapter = ContactsAdapter().apply {
         setOnItemClickListenerToDetail { showDetailDialog(getItem(it)) }
         setOnItemClickListenerToChat {
@@ -47,10 +47,16 @@ class ContactsFrag : Fragment(R.layout.fragment_contacts) {
             checkDeleteMode()
         }
     }
+    private val loadingDialog: DialogFragment =  LoadingDlg()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _b = FragmentContactsBinding.bind(requireView())
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.getContacts(USEREMAIL)
         setupViews()
         observeContacts()
         setUpRecycledView()
@@ -58,6 +64,8 @@ class ContactsFrag : Fragment(R.layout.fragment_contacts) {
 
     // - SETUPS -
     private fun setupViews() {
+        loadingDialog.show(requireActivity().supportFragmentManager, "customDialog")
+        viewModel.getContacts(USEREMAIL)
         checkDeleteMode()
         b.fabNormal.setOnClickListener { navidateToSearchScreen(USEREMAIL) }
         b.fabDelete.setOnClickListener { deleteSelectedContacts() }
@@ -74,6 +82,7 @@ class ContactsFrag : Fragment(R.layout.fragment_contacts) {
     private fun observeContacts() {
         viewModel.contacts.observe(viewLifecycleOwner){
             listAdapter.submitList( it )
+            requireActivity().supportFragmentManager.beginTransaction().remove(loadingDialog).commitAllowingStateLoss()
         }
     }
 

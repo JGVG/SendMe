@@ -28,6 +28,7 @@ class ProfileViewModel(private val repository: Repository, savedStateHandle: Sav
                     snapshot.data!!["direccion"].toString(),
                     snapshot.data!!["fecha_alta"].toString(),
                     snapshot.data!!["sitio_web"].toString()
+
                 )
             }
         }

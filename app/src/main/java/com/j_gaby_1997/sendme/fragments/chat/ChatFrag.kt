@@ -5,7 +5,6 @@ import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -18,14 +17,8 @@ import com.google.firebase.ktx.Firebase
 import com.j_gaby_1997.sendme.ProfileActivity
 import com.j_gaby_1997.sendme.R
 import com.j_gaby_1997.sendme.data.CurrentUserDatabase
-import com.j_gaby_1997.sendme.data.entity.Message
 import com.j_gaby_1997.sendme.data.repository.LocalRepository
 import com.j_gaby_1997.sendme.databinding.FragmentChatBinding
-import com.j_gaby_1997.sendme.fragments.search.SearchAdapter
-import com.j_gaby_1997.sendme.services.createChatDoc
-import com.j_gaby_1997.sendme.services.createMessage
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 private const val ARG_USER_EMAIL = "ARG_USER_EMAIL"
 
@@ -37,15 +30,12 @@ class ChatFrag: Fragment(R.layout.fragment_chat){
     private val USEREMAIL: String by lazy {
         requireArguments().getString(ARG_USER_EMAIL, "null")
     }
-    private val viewModel: ChatViewModel by viewModels {
-        ChatViewModelFactory(LocalRepository(CurrentUserDatabase.getInstance(requireContext()).currentUserDao), this)
-    }
+    private val viewModel: ChatViewModel by viewModels()
     private val listAdapter: ChatAdapter = ChatAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _b = FragmentChatBinding.bind(requireView())
-        createInstanceChat()
         setupViews()
         observeMessages()
         setUpRecycledView()
@@ -53,9 +43,13 @@ class ChatFrag: Fragment(R.layout.fragment_chat){
 
     // - SETUPS -
     private fun setupViews() {
+        //Firebase setup
+        viewModel.instance(Firebase.auth.currentUser?.email.toString(), USEREMAIL)
+        viewModel.update(Firebase.auth.currentUser?.email.toString(), USEREMAIL)
+
         b.buttonBack.setOnClickListener { navigateToContactScreen() }
         b.buttonInfo.setOnClickListener { navigateToProfileScreen(USEREMAIL) }
-        b.textFieldMessage.setEndIconOnClickListener { send(b.edtMessage.text.toString(), USEREMAIL) }
+        b.textFieldMessage.setEndIconOnClickListener { send(b.edtMessage.text.toString(),Firebase.auth.currentUser?.email.toString(), USEREMAIL) }
         FirebaseFirestore.getInstance().collection("USUARIOS").document(USEREMAIL).get().addOnSuccessListener {
             if(it != null){
                 b.txtName.text = it.data?.get("nombre") as String
@@ -92,12 +86,8 @@ class ChatFrag: Fragment(R.layout.fragment_chat){
     }
 
     // - METHODS -
-    private fun createInstanceChat(){
-        val currentUserEmail = Firebase.auth.currentUser?.email.toString()
-        createChatDoc(currentUserEmail, USEREMAIL)
-    }
-    private fun send(messageText: String, receiverEmail: String){
-        viewModel.sendMessage(messageText, receiverEmail)
+    private fun send(messageText: String, senderEmail:String, receiverEmail: String){
+        viewModel.sendMessage(messageText,senderEmail, receiverEmail)
         b.edtMessage.text = Editable.Factory.getInstance().newEditable("")
     }
 

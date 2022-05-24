@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.j_gaby_1997.sendme.ChatActivity
 import com.j_gaby_1997.sendme.ProfileActivity
 import com.j_gaby_1997.sendme.R
-import com.j_gaby_1997.sendme.data.CurrentUserDatabase
 import com.j_gaby_1997.sendme.data.repository.LocalRepository
 import com.j_gaby_1997.sendme.databinding.FragmentSearchBinding
 import com.j_gaby_1997.sendme.fragments.loading.LoadingDlg
@@ -32,9 +31,7 @@ class SearchFrag: Fragment(R.layout.fragment_search) {
     private val USEREMAIL: String by lazy {
         requireArguments().getString(com.j_gaby_1997.sendme.fragments.search.ARG_USER_EMAIL, "null")
     }
-    private val viewModel: SearchViewModel by viewModels {
-        SearchViewModelFactory(LocalRepository(CurrentUserDatabase.getInstance(requireContext()).currentUserDao), this)
-    }
+    private val viewModel: SearchViewModel by viewModels()
     private val listAdapter: SearchAdapter = SearchAdapter().apply {
         setOnItemClickListenerToChat {
             navigateToChatScreen(getItem(it).email)
