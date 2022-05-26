@@ -96,4 +96,28 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:icon = "@drawable/outline_delete_black_24dp" />
 
+    <ImageView
+        android:id="@+id/imageAdd"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginRight="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/fabNormal"
+        app:layout_constraintEnd_toStartOf="@+id/fabNormal"
+        app:layout_constraintTop_toTopOf="@+id/fabNormal"
+        app:srcCompat="@drawable/baseline_reply_black_24dp"
+        app:tint="@color/material_on_background_disabled" />
+
+    <TextView
+        android:id="@+id/textAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/here"
+        android:textColor="@color/material_on_background_disabled"
+        android:textSize="40dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/fabNormal"
+        app:layout_constraintEnd_toEndOf="@+id/imageAdd"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/imageAdd" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

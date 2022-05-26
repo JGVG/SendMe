@@ -19,6 +19,9 @@ import com.j_gaby_1997.sendme.R
 import com.j_gaby_1997.sendme.data.entity.Message
 import com.j_gaby_1997.sendme.data.entity.User
 import com.j_gaby_1997.sendme.databinding.ItemChatBinding
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class ChatAdapter : RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
 
@@ -52,6 +55,7 @@ class ChatAdapter : RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
         //Configure each item in the list corresponding to the attributes of each contact.
         @SuppressLint("NewApi")
         fun bind(message: Message) {
+            val simpleDateFormat = SimpleDateFormat("HH:mm")
 
             if (message.email == currentUserEmail) {
                 profileImage.visibility = View.GONE
@@ -59,7 +63,7 @@ class ChatAdapter : RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
                 dateLeft.visibility = View.GONE
 
                 messageRight.text = message.message_text
-                dateRight.text = message.mini_date
+                dateRight.text = simpleDateFormat.format(message.date.toDate())
 
             } else {
                 messageRight.visibility = View.GONE
@@ -79,7 +83,7 @@ class ChatAdapter : RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
                     }
 
                 messageLeft.text = message.message_text
-                dateLeft.text = message.mini_date
+                dateLeft.text = simpleDateFormat.format(message.date.toDate())
             }
 
         }

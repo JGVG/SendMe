@@ -24,6 +24,7 @@
     <ImageView
         android:id="@+id/status_image"
         android:layout_width="15dp"
+        android:visibility="gone"
         android:layout_height="15dp"
         android:layout_margin="10dp"
         app:layout_constraintBottom_toBottomOf="parent"

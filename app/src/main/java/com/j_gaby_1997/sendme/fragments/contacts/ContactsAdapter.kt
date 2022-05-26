@@ -11,18 +11,20 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.bumptech.glide.Glide
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.j_gaby_1997.sendme.R
 import com.j_gaby_1997.sendme.data.entity.Contact
 import com.j_gaby_1997.sendme.databinding.ItemContactBinding
+import java.text.SimpleDateFormat
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 typealias OnItemClickListener = (position: Int) -> Unit
 typealias OnItemLongClickListener = () -> Unit
 
+@SuppressLint("NewApi", "SimpleDateFormat")
 class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ViewHolder>() {
 
     private var onItemClickListenerChat: OnItemClickListener? = null
@@ -31,7 +33,7 @@ class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ViewHolder>() {
     private var data: List<Contact> = emptyList()
 
     var deleteMode: Boolean = true
-    var selectedContacts: MutableList<Contact> = mutableListOf()
+    var selectedContacts: MutableList<String> = mutableListOf()
 
     // - METHODS -
     fun onDeleteModeChange() {
@@ -68,9 +70,9 @@ class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ViewHolder>() {
         holder.bind(getItem(position))
         holder.checkBox.setOnClickListener{
             if(holder.checkBox.isChecked){
-                selectedContacts.add(getItem(position))
+                selectedContacts.add(getItem(position).email)
             }else{
-                selectedContacts.remove(getItem(position))
+                selectedContacts.remove(getItem(position).email)
             }
         }
     }
@@ -104,22 +106,23 @@ class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ViewHolder>() {
         }
 
         //Configure each item in the list corresponding to the attributes of each contact.
-        @SuppressLint("NewApi")
         fun bind(contact:Contact){
+            val simpleDateFormat = SimpleDateFormat("HH:mm")
+
             contact.run{
                 checkBox.isChecked = false
 
                 //Load image from Firebase
                 Firebase.storage.reference.child("avatars/${email}/${avatarURL.toUri().lastPathSegment}").downloadUrl.addOnSuccessListener {
-                    Glide.with(b.profileImage)
+                    Glide.with(profileImage)
                         .load(it)
                         .placeholder(R.drawable.default_avatar)
                         .error(R.drawable.default_avatar)
-                        .into(b.profileImage)
+                        .into(profileImage)
                 }
                 txtContactName.text = name
                 txtLastMessageChat.text = lastMessage
-                txtLastMessageTime.text =  lastMessageTime.format(DateTimeFormatter.ofPattern("HH:mm")).toString()
+                txtLastMessageTime.text = simpleDateFormat.format(messageTime.toDate())
 
                 if(deleteMode){
                     checkBox.visibility = View.GONE

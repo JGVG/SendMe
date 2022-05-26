@@ -17,6 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.j_gaby_1997.sendme.AuthActivity
+import com.j_gaby_1997.sendme.ChatActivity
 import com.j_gaby_1997.sendme.R
 import com.j_gaby_1997.sendme.data.CurrentUserDatabase
 import com.j_gaby_1997.sendme.data.entity.User
@@ -114,7 +115,11 @@ class ProfileFrag : Fragment(R.layout.fragment_profile){
         requireActivity().onBackPressed()
     }
     private fun navigateToChatScreen( email: String ) {
-        Toast.makeText(requireActivity().application, "To chat with: $email", Toast.LENGTH_LONG).show()
+        val appIntent = Intent(requireActivity().applicationContext, ChatActivity::class.java).apply{
+            putExtra("email", email)
+        }
+        requireActivity().finish()
+        startActivity(appIntent)
     }
     private fun showEditDialog(user: User?){
         if(user != null){

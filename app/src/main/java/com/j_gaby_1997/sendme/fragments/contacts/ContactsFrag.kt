@@ -1,8 +1,10 @@
 package com.j_gaby_1997.sendme.fragments.contacts
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -47,16 +49,14 @@ class ContactsFrag : Fragment(R.layout.fragment_contacts) {
             checkDeleteMode()
         }
     }
-    private val loadingDialog: DialogFragment =  LoadingDlg()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _b = FragmentContactsBinding.bind(requireView())
+        viewModel.getContacts(USEREMAIL)
     }
-
     override fun onStart() {
         super.onStart()
-        viewModel.getContacts(USEREMAIL)
         setupViews()
         observeContacts()
         setUpRecycledView()
@@ -64,8 +64,6 @@ class ContactsFrag : Fragment(R.layout.fragment_contacts) {
 
     // - SETUPS -
     private fun setupViews() {
-        loadingDialog.show(requireActivity().supportFragmentManager, "customDialog")
-        viewModel.getContacts(USEREMAIL)
         checkDeleteMode()
         b.fabNormal.setOnClickListener { navidateToSearchScreen(USEREMAIL) }
         b.fabDelete.setOnClickListener { deleteSelectedContacts() }
@@ -82,7 +80,16 @@ class ContactsFrag : Fragment(R.layout.fragment_contacts) {
     private fun observeContacts() {
         viewModel.contacts.observe(viewLifecycleOwner){
             listAdapter.submitList( it )
-            requireActivity().supportFragmentManager.beginTransaction().remove(loadingDialog).commitAllowingStateLoss()
+
+            Log.d("RESPUESTA EN EL OBSERVADOR", it.toString())
+
+            if(it.size == 0){
+                b.imageAdd.visibility = View.VISIBLE
+                b.textAdd.visibility = View.VISIBLE
+            }else{
+                b.imageAdd.visibility = View.GONE
+                b.textAdd.visibility = View.GONE
+            }
         }
     }
 
@@ -126,8 +133,10 @@ class ContactsFrag : Fragment(R.layout.fragment_contacts) {
     } // Make UI changes for deletion mode.
     private fun deleteSelectedContacts() {
         val selecteds = listAdapter.selectedContacts
-        viewModel.deleteContacts(selecteds, USEREMAIL)
+        listAdapter.onDeleteModeChange()
+        checkDeleteMode()
 
+        viewModel.deleteContacts(selecteds, USEREMAIL)
     } //Gets a list of the contacts selected for deletion.
 
     override fun onDestroyView() {

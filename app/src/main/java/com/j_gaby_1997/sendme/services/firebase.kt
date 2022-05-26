@@ -25,10 +25,13 @@ fun logInUser(email: String, password: String): Task<AuthResult> = FirebaseAuth.
 fun signOut() = FirebaseAuth.getInstance().signOut()
 
 // - LOCAL STORAGE METHODS FROM FIREBASE -
-//fun deleteContact(selecteds: MutableList<Contact>, email: String)
-//fun getContactsList(email: String): MutableList<String>
-//fun getContact(email: String): Contact //Por parte del usuario (nombre, avatar, estado), por parte del último mensaje (mensaje, fecha y estado)
+fun deleteContact(selecteds: MutableList<String>, senderEmail: String){
 
+    for(receiverEmail in selecteds){
+        FirebaseFirestore.getInstance().collection("CHAT").document("${senderEmail}_${receiverEmail}").update("esContacto", false )
+    }
+
+}
 @RequiresApi(Build.VERSION_CODES.O)
 fun createUserDoc(email: String, name: String, isOnline: Boolean = false) {
 
@@ -107,8 +110,7 @@ fun createMessage(senderEmail: String, receiverEmail: String, message: Message) 
             "email" to message.email,
             "mensaje" to message.message_text,
             "estado" to message.state,
-            "fecha" to message.mini_date,
-            "fecha_mini" to message.date
+            "fecha" to message.date,
         )
     )
 
@@ -118,8 +120,7 @@ fun createMessage(senderEmail: String, receiverEmail: String, message: Message) 
             "email" to message.email,
             "mensaje" to message.message_text,
             "estado" to message.state,
-            "fecha" to message.mini_date,
-            "fecha_mini" to message.date
+            "fecha" to message.date,
         )
     )
 }

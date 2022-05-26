@@ -34,7 +34,7 @@ class SearchFrag: Fragment(R.layout.fragment_search) {
     private val viewModel: SearchViewModel by viewModels()
     private val listAdapter: SearchAdapter = SearchAdapter().apply {
         setOnItemClickListenerToChat {
-            navigateToChatScreen(getItem(it).email)
+            navigateToProfileScreen(getItem(it).email)
         }
     }
 
@@ -78,13 +78,14 @@ class SearchFrag: Fragment(R.layout.fragment_search) {
     }
 
     // - NAVIGATE -
-    private fun navigateToChatScreen( email: String ) {
-        val appIntent = Intent(requireActivity().applicationContext, ChatActivity::class.java).apply{
-            putExtra("email", email)
+    private fun navigateToProfileScreen(contactEmail:String){
+        val appIntent = Intent(requireActivity().applicationContext, ProfileActivity::class.java).apply{
+            putExtra("email", contactEmail)
         }
         requireActivity().finish()
         startActivity(appIntent)
     }
+
     private fun navigateToContactScreen() {
         requireActivity().onBackPressed()
     }
