@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.net.toUri
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +20,7 @@ import com.j_gaby_1997.sendme.R
 import com.j_gaby_1997.sendme.data.entity.Message
 import com.j_gaby_1997.sendme.data.entity.User
 import com.j_gaby_1997.sendme.databinding.ItemChatBinding
+import com.j_gaby_1997.sendme.fragments.loading.LoadingDlg
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter

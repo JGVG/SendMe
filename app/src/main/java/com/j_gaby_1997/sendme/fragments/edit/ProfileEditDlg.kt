@@ -36,6 +36,7 @@ import java.io.File
 import java.io.FileOutputStream
 
 @RequiresApi(Build.VERSION_CODES.O)
+@SuppressLint("IntentReset")
 class ProfileEditDlg: DialogFragment(R.layout.dlg_edit) {
 
     private var _b: DlgEditBinding? = null
@@ -43,7 +44,6 @@ class ProfileEditDlg: DialogFragment(R.layout.dlg_edit) {
     private var uriImage: Uri? = null
     private var email : String? = null
     private val loadingDialog: DialogFragment =  LoadingDlg()
-
     private val imageSelectionCall = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == RESULT_OK && result.data != null) {
                 result.data?.data?.let {
@@ -89,6 +89,7 @@ class ProfileEditDlg: DialogFragment(R.layout.dlg_edit) {
         } //It collects the data to show profile edit.
     }
 
+    // - METHODS -
     private fun saveChanges(email: String){
         if(b.edtUsername.text.toString() == ""){
             Toast.makeText(requireActivity().application, "Required user name", Toast.LENGTH_LONG).show()
@@ -97,8 +98,6 @@ class ProfileEditDlg: DialogFragment(R.layout.dlg_edit) {
             dismiss()
         }
     }
-
-    @SuppressLint("IntentReset")
     private fun getImageFromGallery(){
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         intent.type = "image/"

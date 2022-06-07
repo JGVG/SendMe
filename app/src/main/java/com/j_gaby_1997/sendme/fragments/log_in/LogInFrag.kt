@@ -46,7 +46,6 @@ class LogInFrag : Fragment(R.layout.fragment_log_in){
     private fun setupViews() {
         b.edtEmail.text = Editable.Factory.getInstance().newEditable(returnedEmail)
         b.edtPassword.text = Editable.Factory.getInstance().newEditable(returnedPassword)
-
         b.textNoHaveAccount.setOnClickListener { navigateToSignUpScreen() }
         b.edtEmail.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
@@ -104,5 +103,4 @@ class LogInFrag : Fragment(R.layout.fragment_log_in){
         super.onDestroyView()
         _b = null
     }
-
 }

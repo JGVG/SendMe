@@ -89,7 +89,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/text_field_chat"
-            android:inputType="text"
+            android:inputType="textMultiLine|textShortMessage"
             android:textColor="@color/white"
             android:textSize="17sp" />
     </com.google.android.material.textfield.TextInputLayout>

@@ -85,7 +85,6 @@ class SearchFrag: Fragment(R.layout.fragment_search) {
         requireActivity().finish()
         startActivity(appIntent)
     }
-
     private fun navigateToContactScreen() {
         requireActivity().onBackPressed()
     }

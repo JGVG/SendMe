@@ -49,6 +49,7 @@ class ProfileFrag : Fragment(R.layout.fragment_profile){
 
     override fun onStart() {
         super.onStart()
+        loadingDialog.show(requireActivity().supportFragmentManager, "customDialog")
         viewModel.setUser(USEREMAIL)
         setupViews()
         observeUser()
@@ -56,7 +57,6 @@ class ProfileFrag : Fragment(R.layout.fragment_profile){
 
     // - SETUPS
     private fun setupViews(){
-        loadingDialog.show(requireActivity().supportFragmentManager, "customDialog")
         b.buttonBack.setOnClickListener { navigateToContactScreen() }
         b.buttonSignOut.setOnClickListener { signOut() }
         b.fabNormal.setOnClickListener {

@@ -26,7 +26,7 @@ class ContactDetailDlg: DialogFragment(R.layout.dlg_detail) {
     private val b get() = _b!!
     private val loadingDialog: DialogFragment =  LoadingDlg()
 
-
+    // - SETUP -
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _b = DlgDetailBinding.bind(requireView())
@@ -69,5 +69,4 @@ class ContactDetailDlg: DialogFragment(R.layout.dlg_detail) {
         super.onDestroyView()
         _b = null
     }
-
 }

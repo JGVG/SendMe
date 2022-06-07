@@ -15,6 +15,10 @@ import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.Timestamp
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
+import com.google.firebase.firestore.Query
 import com.j_gaby_1997.sendme.ChatActivity
 import com.j_gaby_1997.sendme.ProfileActivity
 import com.j_gaby_1997.sendme.R
@@ -49,11 +53,11 @@ class ContactsFrag : Fragment(R.layout.fragment_contacts) {
             checkDeleteMode()
         }
     }
+    private lateinit var registration: ListenerRegistration
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _b = FragmentContactsBinding.bind(requireView())
-        viewModel.getContacts(USEREMAIL)
     }
     override fun onStart() {
         super.onStart()
@@ -64,6 +68,7 @@ class ContactsFrag : Fragment(R.layout.fragment_contacts) {
 
     // - SETUPS -
     private fun setupViews() {
+
         checkDeleteMode()
         b.fabNormal.setOnClickListener { navidateToSearchScreen(USEREMAIL) }
         b.fabDelete.setOnClickListener { deleteSelectedContacts() }
@@ -78,17 +83,54 @@ class ContactsFrag : Fragment(R.layout.fragment_contacts) {
         }
     }
     private fun observeContacts() {
-        viewModel.contacts.observe(viewLifecycleOwner){
-            listAdapter.submitList( it )
+        val usersRef = FirebaseFirestore.getInstance().collection("USUARIOS")
+        val contactRef = usersRef.document(USEREMAIL).collection("CONTACTS")
 
-            Log.d("RESPUESTA EN EL OBSERVADOR", it.toString())
+        registration = contactRef.addSnapshotListener { contacts, _ ->
+            val searchList: MutableList<Contact> = mutableListOf()
 
-            if(it.size == 0){
-                b.imageAdd.visibility = View.VISIBLE
-                b.textAdd.visibility = View.VISIBLE
-            }else{
-                b.imageAdd.visibility = View.GONE
-                b.textAdd.visibility = View.GONE
+            if (contacts != null) {
+                if (contacts.isEmpty){
+                    listAdapter.submitList(searchList)
+
+                }else{
+                    for (contact in contacts){
+                        val receiverEmail = contact.id
+                        val contactData = Contact()
+
+                        //Build a contact (user info)
+                        usersRef.document(receiverEmail)
+                            .get()
+                            .addOnSuccessListener { user ->
+
+                                contactData.email = user.data!!["email"].toString()
+                                contactData.avatarURL = user.data!!["avatar_url"].toString()
+                                contactData.name = user.data!!["nombre"].toString()
+                                contactData.isOnline = user.data!!["estado_online"].toString().toBoolean()
+
+                                //Build a contact (chat info)
+                                contactRef.document(receiverEmail).collection("MENSAJES")
+                                    .orderBy("fecha", Query.Direction.DESCENDING).limit(1)
+                                    .get()
+                                    .addOnSuccessListener { messages ->
+                                        for (message in messages){
+                                            contactData.lastMessage = message.data["mensaje"].toString()
+                                            contactData.haveNewMessage = message.data["estado"].toString().toBoolean()
+                                            contactData.messageTime = message.data["fecha"] as Timestamp
+
+                                            searchList.add(contactData)
+                                        }
+
+                                        searchList.sortByDescending {
+                                            it.messageTime
+                                        }
+
+                                        //Set contacts in liveData
+                                        listAdapter.submitList(searchList)
+                                    }
+                            }
+                    }
+                }
             }
         }
     }
@@ -142,6 +184,7 @@ class ContactsFrag : Fragment(R.layout.fragment_contacts) {
     override fun onDestroyView() {
         super.onDestroyView()
         _b = null
+        registration.remove()
     }
 
     companion object {
