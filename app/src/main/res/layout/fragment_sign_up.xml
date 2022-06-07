@@ -15,6 +15,21 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textTitle"
+        app:layout_constraintEnd_toStartOf="@+id/textTitle"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@+id/cardView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textTitle"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/ic_main" />
+
     <TextView
         android:id="@+id/textTitle"
         android:layout_width="wrap_content"
@@ -22,19 +37,22 @@
         android:layout_marginTop="100dp"
         android:fontFamily="@font/lato_black"
         android:text="@string/title_sign_in"
-        android:textColor="@color/background_sendMe"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/background_sendMe"
         android:textSize="60sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/cardView" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="@+id/cardView"
+        app:layout_constraintVertical_bias="0.060000000" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textFieldUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="60dp"
         android:layout_marginRight="40dp"
         android:hint="@string/label_username"
         app:boxBackgroundColor="@color/white"
@@ -106,11 +124,11 @@
         android:layout_margin="30dp"
         android:enabled="false"
         android:text="@string/extended_fab_label_text_to"
+        android:textColor="@color/white"
         app:icon="@drawable/baseline_directions_run_24"
+        app:iconTint="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/text_no_have_account"
         app:layout_constraintEnd_toEndOf="parent"
-        android:textColor="@color/white"
-        app:iconTint="@color/white"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textFieldPassword"
@@ -132,7 +150,7 @@
         android:id="@+id/text_copiright"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="70dp"
+        android:layout_marginBottom="40dp"
         android:text="@string/copyright"
         android:textColor="@color/teal_700"
         app:layout_constraintBottom_toBottomOf="@+id/cardView"

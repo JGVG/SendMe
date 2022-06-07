@@ -9,6 +9,6 @@
         android:top="400sp"
         android:bottom="400sp">
     <bitmap
-        android:src="@drawable/ic_main"/>
+        android:src="@drawable/ic_main_alter"/>
     </item>
 </layer-list>
