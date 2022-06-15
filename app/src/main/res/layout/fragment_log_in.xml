@@ -80,7 +80,6 @@
         android:id="@+id/floating_action_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="30dp"
         android:enabled="false"
         android:text="@string/extended_fab_label_text"
         android:textColor="@color/white"
@@ -91,13 +90,12 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/checkBox"
-        app:layout_constraintVertical_chainStyle="spread_inside" />
+        app:layout_constraintVertical_chainStyle="spread" />
 
     <TextView
         android:id="@+id/text_no_have_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="30dp"
         android:text="@string/no_have_an_account"
         android:textColor="@color/purple_500"
         app:layout_constraintBottom_toTopOf="@+id/text_copiright"

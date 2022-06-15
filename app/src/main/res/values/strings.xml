@@ -34,4 +34,5 @@
     <string name="title_messages">Messages</string>
     <string name="text_message">Message</string>
     <string name="here">Here!</string>
+    <string name="not_found_contact">Not Found</string>
 </resources>

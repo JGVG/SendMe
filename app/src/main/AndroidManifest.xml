@@ -38,13 +38,13 @@
             android:name=".AuthActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.SendMe.SplashScreen" />
+            android:theme="@style/Theme.SendMe.NoActionBar" />
         <activity
             android:name=".SearchActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.SendMe.NoActionBarChat"
-            android:windowSoftInputMode="adjustPan" />
+            />
         <activity
             android:name=".ChatActivity"
             android:exported="false"

@@ -8,6 +8,7 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'kotlin-kapt'
 
 
+
 android {
     compileSdk 32
 
@@ -76,4 +77,5 @@ dependencies {
     implementation 'androidx.activity:activity-ktx:1.4.0'
     implementation platform('com.google.firebase:firebase-bom:30.0.0')
     implementation 'com.google.firebase:firebase-firestore-ktx'
+    implementation 'com.vanniktech:emoji-google:0.15.0'
 }

@@ -11,6 +11,6 @@ interface Repository {
 
     // - REPOSITORY METHODS -
     fun queryCurrentUser(): LiveData<CurrentUser>
-    fun addCurrentUser(student: CurrentUser)
+    fun addCurrentUser(currentUser: CurrentUser)
     fun deleteCurrentUser()
 }

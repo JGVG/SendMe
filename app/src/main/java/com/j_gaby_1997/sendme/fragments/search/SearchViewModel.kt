@@ -15,9 +15,7 @@ class SearchViewModel: ViewModel() {
     val searchResult: LiveData<MutableList<User>> get() = _searchResult
 
     fun search(input: String, currentUserEmail: String){
-        if(input == ""){
-            _searchResult.value = mutableListOf()
-        }else{
+
             db.collection("USUARIOS")
                 .orderBy("nombre").startAt(input).endAt(input+"\uf8ff")
                 .get()
@@ -41,7 +39,7 @@ class SearchViewModel: ViewModel() {
                     }
                     _searchResult.value = searchList
                 }
-        }
+
 
     }
 

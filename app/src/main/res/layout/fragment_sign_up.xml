@@ -121,7 +121,6 @@
         android:id="@+id/floating_action_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="30dp"
         android:enabled="false"
         android:text="@string/extended_fab_label_text_to"
         android:textColor="@color/white"
@@ -132,13 +131,12 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textFieldPassword"
-        app:layout_constraintVertical_chainStyle="spread_inside" />
+        app:layout_constraintVertical_chainStyle="spread" />
 
     <TextView
         android:id="@+id/text_no_have_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="30dp"
         android:textColor="@color/purple_500"
         app:layout_constraintBottom_toTopOf="@+id/text_copiright"
         app:layout_constraintEnd_toEndOf="parent"
@@ -153,8 +151,9 @@
         android:layout_marginBottom="40dp"
         android:text="@string/copyright"
         android:textColor="@color/teal_700"
-        app:layout_constraintBottom_toBottomOf="@+id/cardView"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

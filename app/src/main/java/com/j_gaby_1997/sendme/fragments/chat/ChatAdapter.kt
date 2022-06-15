@@ -25,6 +25,7 @@ import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
+@SuppressLint("NewApi", "SimpleDateFormat")
 class ChatAdapter : RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
 
     private var _data: MutableList<Message> = mutableListOf()
@@ -39,33 +40,31 @@ class ChatAdapter : RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatAdapter.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val b = ItemChatBinding.inflate(layoutInflater, parent, false)
-        return ViewHolder(b)
+        val currentUserEmail = Firebase.auth.currentUser?.email
+
+        return ViewHolder(b, currentUserEmail)
     }
     override fun onBindViewHolder(holder: ChatAdapter.ViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
-    inner class ViewHolder(private val b: ItemChatBinding) : RecyclerView.ViewHolder(b.root) {
+    inner class ViewHolder(private val b: ItemChatBinding, currentUserEmail: String?) : RecyclerView.ViewHolder(b.root) {
 
-        private val profileImage: ImageView = b.imageLeft
         private val messageLeft: TextView = b.messageLeft
         private val dateLeft: TextView = b.dateLeft
         private val messageRight: TextView = b.messageRight
         private val dateRight: TextView = b.dateRight
-        private val currentUserEmail = Firebase.auth.currentUser?.email.toString()
+        private val currentUser = currentUserEmail
 
         //Configure each item in the list corresponding to the attributes of each contact.
-        @SuppressLint("NewApi")
         fun bind(message: Message) {
-            val simpleDateFormat = SimpleDateFormat("HH:mm")
 
-            if (message.email == currentUserEmail) {
-                profileImage.visibility = View.GONE
+            if (message.email == currentUser) {
                 messageLeft.visibility = View.GONE
                 dateLeft.visibility = View.GONE
 
                 messageRight.text = message.message_text
-                dateRight.text = simpleDateFormat.format(message.date.toDate())
+                dateRight.text = SimpleDateFormat("HH:mm").format(message.date.toDate())
 
             } else {
                 messageRight.visibility = View.GONE
@@ -75,17 +74,17 @@ class ChatAdapter : RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
                     .addOnSuccessListener {
                         val url = it.data!!["avatar_url"].toString()
 
-                        Firebase.storage.reference.child("avatars/${message.email}/${url.toUri().lastPathSegment}").downloadUrl.addOnSuccessListener {
-                            Glide.with(b.imageLeft)
-                                .load(it)
+                        Firebase.storage.reference.child("avatars/${message.email}/${url.toUri().lastPathSegment}").downloadUrl.addOnSuccessListener { avatar ->
+                            Glide.with(b.buttonInfo)
+                                .load(avatar)
                                 .placeholder(R.drawable.default_avatar)
                                 .error(R.drawable.default_avatar)
-                                .into(b.imageLeft)
+                                .into(b.buttonInfo)
                         }
                     }
 
                 messageLeft.text = message.message_text
-                dateLeft.text = simpleDateFormat.format(message.date.toDate())
+                dateLeft.text = SimpleDateFormat("HH:mm").format(message.date.toDate())
             }
 
         }

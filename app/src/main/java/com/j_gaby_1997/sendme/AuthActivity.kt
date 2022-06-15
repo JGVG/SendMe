@@ -23,12 +23,11 @@ class AuthActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(b.root)
-
-        startScreen()
+        showStartDestination()
     }
 
     // - START SCREEN -
-    private fun startScreen() {
+    private fun showStartDestination() {
         supportFragmentManager.commit {
             setReorderingAllowed(true)
             replace(R.id.fcContent, LogInFrag::class.java, null)

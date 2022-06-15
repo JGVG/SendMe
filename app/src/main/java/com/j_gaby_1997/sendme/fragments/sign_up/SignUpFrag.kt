@@ -67,11 +67,12 @@ class SignUpFrag : Fragment(R.layout.fragment_sign_up){
     private fun signUp() {
         viewModel.signIn(b.edtEmail.text.toString(), b.edtPassword.text.toString()).addOnCompleteListener {
             if(it.isSuccessful){
+                //Create user in db.
+                viewModel.createUser(b.edtEmail.text.toString(), b.edtUsername.text.toString())
+
                 //Send email and password to login screem and set credentials for log in.
                 setFragmentResult("requestKey", bundleOf("bundleEmail" to b.edtEmail.text.toString(), "bundlePassword" to b.edtPassword.text.toString()))
 
-                //Create user in db.
-                viewModel.createUser(b.edtEmail.text.toString(), b.edtUsername.text.toString())
                 navigateToLogInScreen()
             }else{
                 Toast.makeText(requireActivity().application, R.string.error_message_sig_up_auth, Toast.LENGTH_LONG).show()

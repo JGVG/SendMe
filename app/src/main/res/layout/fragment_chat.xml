@@ -4,16 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/chat"
     android:background="@color/background_sendMe">
 
     <View
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/border_bottom"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="100dp"
-
+        android:background="@drawable/border_bottom"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
@@ -37,8 +37,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/buttonBack"
         app:layout_constraintEnd_toStartOf="@+id/buttonInfo"
         app:layout_constraintStart_toEndOf="@+id/buttonBack"
-        app:layout_constraintTop_toTopOf="@+id/buttonBack"
-        />
+        app:layout_constraintTop_toTopOf="@+id/buttonBack" />
 
     <ImageView
         android:id="@+id/buttonInfo"
@@ -47,8 +46,8 @@
         android:layout_margin="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/background_sendMe"
-        android:src="@drawable/baseline_person_black_24dp"/>
+        app:srcCompat="@drawable/baseline_person_black_24dp"
+        app:tint="@color/background_sendMe" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lstChat"
@@ -74,6 +73,7 @@
         app:endIconMode="custom"
         app:placeholderTextColor="@color/white"
         app:placeholderText="@string/text_message"
+        app:startIconDrawable="@drawable/baseline_sentiment_satisfied_alt_black_24dp"
         app:endIconDrawable="@drawable/baseline_send_black_24dp"
         app:endIconTint="@color/white"
         app:boxStrokeColor="@color/transparent"
@@ -81,7 +81,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView"
-        app:startIconDrawable="@drawable/baseline_sentiment_satisfied_alt_black_24dp"
         app:startIconTint="@color/white">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -89,7 +88,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/text_field_chat"
-            android:inputType="textMultiLine|textShortMessage"
+            android:maxLines="1"
+            android:inputType="textShortMessage"
             android:textColor="@color/white"
             android:textSize="17sp" />
     </com.google.android.material.textfield.TextInputLayout>
