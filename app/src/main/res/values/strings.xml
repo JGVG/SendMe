@@ -12,8 +12,8 @@
     <string name="extended_fab_label_text">ACCESS</string>
     <string name="extended_fab_label_text_to">log in</string>
     <string name="title_home">Welcome!!</string>
-    <string name="error_message_log_in_auth">User no exists</string>
-    <string name="error_message_sig_up_auth">Register fails</string>
+    <string name="error_message_log_in_auth">Log in failed</string>
+    <string name="error_message_sig_up_auth">Sign up failed</string>
     <string name="extended_fab_label_text_out">Log Out</string>
     <string name="error_message_ilegal_access">ILEGAL ACCESS</string>
     <string name="title_profile">Profile</string>

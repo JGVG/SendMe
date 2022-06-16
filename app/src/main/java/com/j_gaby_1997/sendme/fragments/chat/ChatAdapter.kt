@@ -55,20 +55,26 @@ class ChatAdapter : RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
         private val messageRight: TextView = b.messageRight
         private val dateRight: TextView = b.dateRight
         private val currentUser = currentUserEmail
+        private val profilePhoto = b.buttonInfo
 
         //Configure each item in the list corresponding to the attributes of each contact.
         fun bind(message: Message) {
 
-            if (message.email == currentUser) {
-                messageLeft.visibility = View.GONE
-                dateLeft.visibility = View.GONE
+            messageLeft.visibility = View.INVISIBLE
+            dateLeft.visibility = View.INVISIBLE
+            messageRight.visibility = View.INVISIBLE
+            dateRight.visibility = View.INVISIBLE
+            profilePhoto.visibility = View.INVISIBLE
 
+            if (message.email == currentUser) {
                 messageRight.text = message.message_text
                 dateRight.text = SimpleDateFormat("HH:mm").format(message.date.toDate())
 
+                messageRight.visibility = View.VISIBLE
+                dateRight.visibility = View.VISIBLE
             } else {
-                messageRight.visibility = View.GONE
-                dateRight.visibility = View.GONE
+                messageLeft.text = message.message_text
+                dateLeft.text = SimpleDateFormat("HH:mm").format(message.date.toDate())
 
                 FirebaseFirestore.getInstance().collection("USUARIOS").document(message.email).get()
                     .addOnSuccessListener {
@@ -83,8 +89,10 @@ class ChatAdapter : RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
                         }
                     }
 
-                messageLeft.text = message.message_text
-                dateLeft.text = SimpleDateFormat("HH:mm").format(message.date.toDate())
+                messageLeft.visibility = View.VISIBLE
+                dateLeft.visibility = View.VISIBLE
+                profilePhoto.visibility = View.VISIBLE
+
             }
 
         }

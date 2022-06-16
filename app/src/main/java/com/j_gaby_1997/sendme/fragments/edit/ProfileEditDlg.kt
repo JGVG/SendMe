@@ -31,6 +31,7 @@ import com.j_gaby_1997.sendme.R
 import com.j_gaby_1997.sendme.databinding.DlgEditBinding
 import com.j_gaby_1997.sendme.fragments.loading.LoadingDlg
 import com.j_gaby_1997.sendme.services.saveUpdateDataUser
+import com.j_gaby_1997.sendme.utils.checkForInternet
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -91,17 +92,25 @@ class ProfileEditDlg: DialogFragment(R.layout.dlg_edit) {
 
     // - METHODS -
     private fun saveChanges(email: String){
-        if(b.edtUsername.text.toString() == ""){
-            Toast.makeText(requireActivity().application, "Required user name", Toast.LENGTH_LONG).show()
+        if(!checkForInternet(requireActivity())) {
+            Toast.makeText(requireActivity(), "No Internet connection", Toast.LENGTH_SHORT).show()
         }else{
-            saveUpdateDataUser(email, uriImage, b.edtUsername.text.toString() , b.edtDescription.text.toString(), b.edtLocation.text.toString(), b.edtSite.text.toString())
-            dismiss()
+            if(b.edtUsername.text.toString() == ""){
+                Toast.makeText(requireActivity().application, "Required user name", Toast.LENGTH_LONG).show()
+            }else{
+                saveUpdateDataUser(email, uriImage, b.edtUsername.text.toString() , b.edtDescription.text.toString(), b.edtLocation.text.toString(), b.edtSite.text.toString())
+                dismiss()
+            }
         }
     }
     private fun getImageFromGallery(){
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        intent.type = "image/"
-        imageSelectionCall.launch(intent)
+        if(!checkForInternet(requireActivity())) {
+            Toast.makeText(requireActivity(), "No Internet connection", Toast.LENGTH_SHORT).show()
+        }else{
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            intent.type = "image/"
+            imageSelectionCall.launch(intent)
+        }
     }
 
     override fun onDestroyView() {

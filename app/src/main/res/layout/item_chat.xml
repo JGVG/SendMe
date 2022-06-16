@@ -12,6 +12,7 @@
         android:layout_marginStart="20dp"
         app:layout_constraintBottom_toBottomOf="@+id/message_left"
         app:layout_constraintStart_toStartOf="parent"
+        android:src="@drawable/default_avatar"
         tools:src="@tools:sample/avatars" />
 
     <TextView

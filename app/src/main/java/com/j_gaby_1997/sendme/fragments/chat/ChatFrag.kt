@@ -10,6 +10,7 @@ import android.os.Vibrator
 import android.text.Editable
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.os.bundleOf
@@ -25,6 +26,7 @@ import com.j_gaby_1997.sendme.ProfileActivity
 import com.j_gaby_1997.sendme.R
 import com.j_gaby_1997.sendme.data.entity.Message
 import com.j_gaby_1997.sendme.databinding.FragmentChatBinding
+import com.j_gaby_1997.sendme.utils.checkForInternet
 import com.vanniktech.emoji.EmojiManager
 import com.vanniktech.emoji.EmojiPopup
 import com.vanniktech.emoji.EmojiTheming
@@ -137,76 +139,82 @@ class ChatFrag: Fragment(R.layout.fragment_chat){
                     )
                 }
                 listAdapter.submitList(messageList)
+                b.lstChat.scrollToPosition(messageList.size - 1)
             }
         }
     private fun setUpRecycledView() {
-b.lstChat.run {
-    setHasFixedSize(true)
-    layoutManager = LinearLayoutManager(context).apply {
-        stackFromEnd = true
-        reverseLayout = false
+        b.lstChat.run {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(context).apply {
+                stackFromEnd = true
+                reverseLayout = false
+            }
+            itemAnimator = DefaultItemAnimator()
+            adapter = listAdapter
+        }
     }
-    itemAnimator = DefaultItemAnimator()
-    adapter = listAdapter
-}
-}
 
     // - NAVIGATE -
     private fun navigateToContactScreen() {
-requireActivity().onBackPressed()
-}
-    private fun navigateToProfileScreen(email: String) {
-val appIntent =
-    Intent(requireActivity().applicationContext, ProfileActivity::class.java).apply {
-        putExtra("email", email)
+        requireActivity().onBackPressed()
     }
-requireActivity().finish()
-startActivity(appIntent)
-}
+    private fun navigateToProfileScreen(email: String) {
+        if(!checkForInternet(requireActivity())) {
+            Toast.makeText(requireActivity(), "No Internet connection", Toast.LENGTH_SHORT).show()
+        }else{
+            val appIntent = Intent(requireActivity().applicationContext, ProfileActivity::class.java).apply {
+                putExtra("email", email)
+            }
+            requireActivity().finish()
+            startActivity(appIntent)
+        }
+    }
 
     // - METHODS -
     private fun send(messageText: String, senderEmail: String, receiverEmail: String) {
-if (messageText != "") {
-    val message = Message(senderEmail, messageText, false, Timestamp.now())
-    val senderContactsRef =
-        FirebaseFirestore.getInstance().collection("USUARIOS").document(senderEmail)
-            .collection("CONTACTS")
-    val receiverContactsRef =
-        FirebaseFirestore.getInstance().collection("USUARIOS").document(receiverEmail)
-            .collection("CONTACTS")
+        if(!checkForInternet(requireActivity())) {
+            Toast.makeText(requireActivity(), "No Internet connection", Toast.LENGTH_SHORT).show()
+        }else{
+            if (messageText != "") {
+                val message = Message(senderEmail, messageText, false, Timestamp.now())
+                val senderContactsRef =
+                    FirebaseFirestore.getInstance().collection("USUARIOS").document(senderEmail)
+                        .collection("CONTACTS")
+                val receiverContactsRef =
+                    FirebaseFirestore.getInstance().collection("USUARIOS").document(receiverEmail)
+                        .collection("CONTACTS")
 
-    senderContactsRef.document(receiverEmail).get().addOnSuccessListener { contact ->
-        //Create a contacts.
-        senderContactsRef.document(receiverEmail)
-            .set(hashMapOf("receptor_email" to receiverEmail))
-        //Create a message.
-        senderContactsRef.document(receiverEmail).collection("MENSAJES").add(
-            hashMapOf(
-                "mensaje" to message.message_text,
-                "estado" to message.state,
-                "fecha" to message.date,
-                "email" to message.email
-            )
-        )
-        //Set the editText to empty.
-        b.edtMessage.text = Editable.Factory.getInstance().newEditable("")
-    }
-    receiverContactsRef.document(senderEmail).get().addOnSuccessListener { contact ->
-        //Create a contacts.
-        receiverContactsRef.document(senderEmail)
-            .set(hashMapOf("receptor_email" to senderEmail))
-        //Create a message.
-        receiverContactsRef.document(senderEmail).collection("MENSAJES").add(
-            hashMapOf(
-                "mensaje" to message.message_text,
-                "estado" to message.state,
-                "fecha" to message.date,
-                "email" to message.email
-            )
-        )
-    }
-}
-} // Send a message and set the editText to empty.
+                //Create a contacts.
+                senderContactsRef.document(receiverEmail)
+                    .set(hashMapOf("receptor_email" to receiverEmail))
+                //Create a message.
+                senderContactsRef.document(receiverEmail).collection("MENSAJES").add(
+                    hashMapOf(
+                        "mensaje" to message.message_text,
+                        "estado" to message.state,
+                        "fecha" to message.date,
+                        "email" to message.email
+                    ))
+
+                //Set the editText to empty.
+                b.edtMessage.text = Editable.Factory.getInstance().newEditable("")
+
+                //Create a contacts.
+                receiverContactsRef.document(senderEmail)
+                    .set(hashMapOf("receptor_email" to senderEmail))
+                //Create a message.
+                receiverContactsRef.document(senderEmail).collection("MENSAJES").add(
+                    hashMapOf(
+                        "mensaje" to message.message_text,
+                        "estado" to message.state,
+                        "fecha" to message.date,
+                        "email" to message.email
+                    )
+                )
+
+            }
+        }
+    } // Send a message and set the editText to empty.
     private fun onKeyboardVisibilityChanged(opened: Boolean) {
         if(!opened){
             viewModel.iconFlag = true

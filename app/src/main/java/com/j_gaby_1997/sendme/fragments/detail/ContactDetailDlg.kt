@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.net.toUri
 import androidx.fragment.app.DialogFragment
@@ -18,6 +19,7 @@ import com.j_gaby_1997.sendme.ProfileActivity
 import com.j_gaby_1997.sendme.R
 import com.j_gaby_1997.sendme.databinding.DlgDetailBinding
 import com.j_gaby_1997.sendme.fragments.loading.LoadingDlg
+import com.j_gaby_1997.sendme.utils.checkForInternet
 
 @RequiresApi(Build.VERSION_CODES.O)
 class ContactDetailDlg: DialogFragment(R.layout.dlg_detail) {
@@ -58,11 +60,15 @@ class ContactDetailDlg: DialogFragment(R.layout.dlg_detail) {
 
     // - NAVIGATE -
     private fun navigateToProfileScreen(contactEmail:String){
-        val appIntent = Intent(requireActivity().applicationContext, ProfileActivity::class.java).apply{
-            putExtra("email", contactEmail)
+        if(!checkForInternet(requireActivity())) {
+            Toast.makeText(requireActivity(), "No Internet connection", Toast.LENGTH_SHORT).show()
+        }else{
+            val appIntent = Intent(requireActivity().applicationContext, ProfileActivity::class.java).apply{
+                putExtra("email", contactEmail)
+            }
+            dismiss()
+            startActivity(appIntent)
         }
-        dismiss()
-        startActivity(appIntent)
     }
 
     override fun onDestroyView() {

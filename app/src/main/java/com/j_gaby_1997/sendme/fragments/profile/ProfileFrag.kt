@@ -26,6 +26,7 @@ import com.j_gaby_1997.sendme.databinding.FragmentProfileBinding
 import com.j_gaby_1997.sendme.fragments.detail.ContactDetailDlg
 import com.j_gaby_1997.sendme.fragments.edit.ProfileEditDlg
 import com.j_gaby_1997.sendme.fragments.loading.LoadingDlg
+import com.j_gaby_1997.sendme.utils.checkForInternet
 
 private const val ARG_USER_EMAIL = "ARG_USER_EMAIL"
 
@@ -115,41 +116,59 @@ class ProfileFrag : Fragment(R.layout.fragment_profile){
         requireActivity().onBackPressed()
     }
     private fun navigateToChatScreen( email: String ) {
-        val appIntent = Intent(requireActivity().applicationContext, ChatActivity::class.java).apply{
-            putExtra("email", email)
+        if(!checkForInternet(requireActivity())) {
+            Toast.makeText(requireActivity(), "No Internet connection", Toast.LENGTH_SHORT).show()
+        }else{
+            val appIntent = Intent(requireActivity().applicationContext, ChatActivity::class.java).apply{
+                putExtra("email", email)
+            }
+            requireActivity().finish()
+            startActivity(appIntent)
         }
-        requireActivity().finish()
-        startActivity(appIntent)
+
     }
     private fun showEditDialog(user: User?){
-        if(user != null){
-            setFragmentResult("requestKey", bundleOf(
-                "bundleEmail" to USEREMAIL,
-                "bundleAvatar" to user.avatarURL,
-                "bundleName" to user.name,
-                "bundleDescription" to user.description,
-                "bundleLocation" to user.location,
-                "bundleWebSite" to user.webSiteURL
-            ))
-            ProfileEditDlg().show(requireActivity().supportFragmentManager, "customDialog")
+        if(!checkForInternet(requireActivity())) {
+            Toast.makeText(requireActivity(), "No Internet connection", Toast.LENGTH_SHORT).show()
+        }else{
+            if(user != null){
+                setFragmentResult("requestKey", bundleOf(
+                    "bundleEmail" to USEREMAIL,
+                    "bundleAvatar" to user.avatarURL,
+                    "bundleName" to user.name,
+                    "bundleDescription" to user.description,
+                    "bundleLocation" to user.location,
+                    "bundleWebSite" to user.webSiteURL
+                ))
+                ProfileEditDlg().show(requireActivity().supportFragmentManager, "customDialog")
+            }
         }
     } //Display a dialog for edit user.
     private fun showDetailDialog(user: User?) {
-        if(user != null){
-            setFragmentResult("requestKey", bundleOf(
-                "bundleAvatar" to user.avatarURL,
-                "bundleName" to user.name,
-                "bundleEmail" to USEREMAIL
-            ))
-            ContactDetailDlg().show(requireActivity().supportFragmentManager, "customDialog")
+        if(!checkForInternet(requireActivity())) {
+            Toast.makeText(requireActivity(), "No Internet connection", Toast.LENGTH_SHORT).show()
+        }else{
+            if(user != null){
+                setFragmentResult("requestKey", bundleOf(
+                    "bundleAvatar" to user.avatarURL,
+                    "bundleName" to user.name,
+                    "bundleEmail" to USEREMAIL
+                ))
+                ContactDetailDlg().show(requireActivity().supportFragmentManager, "customDialog")
+            }
         }
     } //Display a dialog for the details of the selected user.
 
     // - METHODS -
     private fun signOut(){
-        viewModel.signOutUser()
-        requireActivity().finishAffinity()
-        startActivity(Intent(requireActivity().applicationContext, AuthActivity::class.java))
+        if(!checkForInternet(requireActivity())) {
+            Toast.makeText(requireActivity(), "No Internet connection", Toast.LENGTH_SHORT).show()
+        }else{
+            viewModel.signOutUser()
+            requireActivity().finishAffinity()
+            startActivity(Intent(requireActivity().applicationContext, AuthActivity::class.java))
+        }
+
     }
 
     override fun onDestroyView() {

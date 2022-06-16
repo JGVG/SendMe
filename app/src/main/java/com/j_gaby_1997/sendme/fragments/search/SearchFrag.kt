@@ -20,6 +20,7 @@ import com.j_gaby_1997.sendme.R
 import com.j_gaby_1997.sendme.data.repository.LocalRepository
 import com.j_gaby_1997.sendme.databinding.FragmentSearchBinding
 import com.j_gaby_1997.sendme.fragments.loading.LoadingDlg
+import com.j_gaby_1997.sendme.utils.checkForInternet
 
 private const val ARG_USER_EMAIL = "ARG_USER_EMAIL"
 
@@ -51,7 +52,11 @@ class SearchFrag: Fragment(R.layout.fragment_search) {
         viewModel.search(b.edtSearch.text.toString(), USEREMAIL)
         b.edtSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) { }
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) { viewModel.search(b.edtSearch.text.toString(), USEREMAIL) }
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                if(checkForInternet(requireActivity())) {
+                    viewModel.search(b.edtSearch.text.toString(), USEREMAIL)
+                }
+            }
             override fun afterTextChanged(s: Editable) {}
         })
         b.buttonBack.setOnClickListener { navigateToContactScreen() }
@@ -80,11 +85,15 @@ class SearchFrag: Fragment(R.layout.fragment_search) {
 
     // - NAVIGATE -
     private fun navigateToProfileScreen(contactEmail:String){
-        val appIntent = Intent(requireActivity().applicationContext, ProfileActivity::class.java).apply{
-            putExtra("email", contactEmail)
+        if(!checkForInternet(requireActivity())) {
+            Toast.makeText(requireActivity(), "No Internet connection", Toast.LENGTH_SHORT).show()
+        }else{
+            val appIntent = Intent(requireActivity().applicationContext, ProfileActivity::class.java).apply{
+                putExtra("email", contactEmail)
+            }
+            requireActivity().finish()
+            startActivity(appIntent)
         }
-        requireActivity().finish()
-        startActivity(appIntent)
     }
     private fun navigateToContactScreen() {
         requireActivity().onBackPressed()

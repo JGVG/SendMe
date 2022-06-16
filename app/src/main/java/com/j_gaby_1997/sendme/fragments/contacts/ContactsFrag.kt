@@ -1,15 +1,12 @@
 package com.j_gaby_1997.sendme.fragments.contacts
 
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.os.bundleOf
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
@@ -23,12 +20,10 @@ import com.j_gaby_1997.sendme.ChatActivity
 import com.j_gaby_1997.sendme.ProfileActivity
 import com.j_gaby_1997.sendme.R
 import com.j_gaby_1997.sendme.SearchActivity
-import com.j_gaby_1997.sendme.data.CurrentUserDatabase
 import com.j_gaby_1997.sendme.data.entity.Contact
-import com.j_gaby_1997.sendme.data.repository.LocalRepository
 import com.j_gaby_1997.sendme.databinding.FragmentContactsBinding
 import com.j_gaby_1997.sendme.fragments.detail.ContactDetailDlg
-import com.j_gaby_1997.sendme.fragments.loading.LoadingDlg
+import com.j_gaby_1997.sendme.utils.checkForInternet
 
 private const val ARG_USER_EMAIL = "ARG_USER_EMAIL"
 
@@ -42,15 +37,19 @@ class ContactsFrag : Fragment(R.layout.fragment_contacts) {
     }
     private val viewModel: ContactsViewModel by viewModels()
     private val listAdapter: ContactsAdapter = ContactsAdapter().apply {
-        setOnItemClickListenerToDetail { showDetailDialog(getItem(it)) }
+        setOnItemClickListenerToDetail {  showDetailDialog(getItem(it)) }
         setOnItemClickListenerToChat {
             if(deleteMode){
                 navigateToChatScreen(getItem(it).email)
             }
         }
         setOnItemLongClickListenerToDeleteMode {
-            onDeleteModeChange()
-            checkDeleteMode()
+            if(!checkForInternet(requireActivity())) {
+                Toast.makeText(requireActivity(), "No Internet connection", Toast.LENGTH_SHORT).show()
+            }else{
+                onDeleteModeChange()
+                checkDeleteMode()
+            }
         }
     }
     private lateinit var registration: ListenerRegistration
@@ -68,11 +67,10 @@ class ContactsFrag : Fragment(R.layout.fragment_contacts) {
 
     // - SETUPS -
     private fun setupViews() {
-
         checkDeleteMode()
         b.fabNormal.setOnClickListener { navidateToSearchScreen(USEREMAIL) }
         b.fabDelete.setOnClickListener { deleteSelectedContacts() }
-        b.buttonProfile.setOnClickListener { navigateToProfileScreen(USEREMAIL) }
+        b.buttonProfile.setOnClickListener {  navigateToProfileScreen(USEREMAIL) }
     }
     private fun setUpRecycledView() {
         b.lstContacts.run{
@@ -137,30 +135,48 @@ class ContactsFrag : Fragment(R.layout.fragment_contacts) {
 
     // - NAVIGATE -
     private fun navigateToChatScreen( email: String ) {
-        val appIntent = Intent(requireActivity().applicationContext, ChatActivity::class.java).apply{
-            putExtra("email", email)
+        if(!checkForInternet(requireActivity())){
+            Toast.makeText(requireActivity(), "No Internet connection", Toast.LENGTH_SHORT).show()
+        }else{
+            val appIntent = Intent(requireActivity().applicationContext, ChatActivity::class.java).apply{
+                putExtra("email", email)
+            }
+            startActivity(appIntent)
         }
-        startActivity(appIntent)
     }
     private fun navigateToProfileScreen( email :String ){
-        val appIntent = Intent(requireActivity().applicationContext, ProfileActivity::class.java).apply{
-            putExtra("email", email)
+        if(!checkForInternet(requireActivity())) {
+            Toast.makeText(requireActivity(), "No Internet connection", Toast.LENGTH_SHORT).show()
+        }else{
+            val appIntent = Intent(requireActivity().applicationContext, ProfileActivity::class.java).apply{
+                putExtra("email", email)
+            }
+            startActivity(appIntent)
         }
-        startActivity(appIntent)
     }
     private fun navidateToSearchScreen(email :String){
-        val appIntent = Intent(requireActivity().applicationContext, SearchActivity::class.java).apply{
-            putExtra("email", email)
+        if(!checkForInternet(requireActivity())) {
+            Toast.makeText(requireActivity(), "No Internet connection", Toast.LENGTH_SHORT).show()
+        }else{
+            val appIntent =
+                Intent(requireActivity().applicationContext, SearchActivity::class.java).apply {
+                    putExtra("email", email)
+                }
+            startActivity(appIntent)
         }
-        startActivity(appIntent)
     }
     private fun showDetailDialog( contact: Contact ) {
-        setFragmentResult("requestKey", bundleOf(
-            "bundleAvatar" to contact.avatarURL,
-            "bundleName" to contact.name,
-            "bundleEmail" to contact.email
-        ))
-        ContactDetailDlg().show(requireActivity().supportFragmentManager, "customDialog")
+        if(!checkForInternet(requireActivity())) {
+            Toast.makeText(requireActivity(), "No Internet connection", Toast.LENGTH_SHORT).show()
+        }else{
+            setFragmentResult("requestKey", bundleOf(
+                "bundleAvatar" to contact.avatarURL,
+                "bundleName" to contact.name,
+                "bundleEmail" to contact.email
+            ))
+            ContactDetailDlg().show(requireActivity().supportFragmentManager, "customDialog")
+        }
+
     } //Display a dialog for the details of the selected contact.
 
     // - METHODS -
@@ -174,11 +190,15 @@ class ContactsFrag : Fragment(R.layout.fragment_contacts) {
         }
     } // Make UI changes for deletion mode.
     private fun deleteSelectedContacts() {
-        val selecteds = listAdapter.selectedContacts
-        listAdapter.onDeleteModeChange()
-        checkDeleteMode()
+        if(!checkForInternet(requireActivity())) {
+            Toast.makeText(requireActivity(), "No Internet connection", Toast.LENGTH_SHORT).show()
+        }else{
+            val selected = listAdapter.selectedContacts
+            listAdapter.onDeleteModeChange()
+            checkDeleteMode()
 
-        viewModel.deleteContacts(selecteds, USEREMAIL)
+            viewModel.deleteContacts(selected, USEREMAIL)
+        }
     } //Gets a list of the contacts selected for deletion.
 
     override fun onDestroyView() {
